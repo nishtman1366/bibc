@@ -1,0 +1,300 @@
+<?php
+$MerchantId = 'B646';
+$admin_email = 'seyyed.a@gmail.com';
+$sha1Key = '22338240992352910814917221751200141041845518824222260';
+
+session_start();
+
+$body_action = "INDEX";
+$success_massage = '';
+$error_message = '';
+$bank_form_action = '';
+$bank_form_data = array();
+
+//##################################################################
+//#
+//#
+//#             بخش بررسی فرم و ارسال به بانک
+//#
+
+if(isset($_POST['action']) && $_POST['action'] == 'pay')
+{
+
+	if(intval($_POST['PayAmount']) >= 1000)
+	{
+		if(!empty($_POST['fullname']))
+		{
+			$_SESSION['merchantId'] = $MerchantId;
+			$_SESSION['sha1Key'] = $sha1Key;
+			$_SESSION['admin_email'] = $admin_email;
+			$_SESSION['amount'] =$_POST['PayAmount'] ;
+			$_SESSION['PayOrderId'] =$_POST['PayOrderId'];
+			$_SESSION['fullname'] =$_POST['fullname'];
+			$_SESSION['email'] =$_POST['email'];
+			$revertURL = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']).'/?payback';
+			
+			$client = new SoapClient('https://ikc.shaparak.ir/XToken/Tokens.xml', array('soap_version'   => SOAP_1_1));
+
+			$params['amount'] =  $_SESSION['amount'];
+			$params['merchantId'] = $MerchantId;
+			$params['invoiceNo'] = $_POST['PayOrderId'];
+			$params['paymentId'] = $_POST['PayOrderId'];
+			$params['specialPaymentId'] = $_POST['PayOrderId'];
+			$params['revertURL'] = $revertURL;
+			$params['description'] = "";
+			$result = $client->__soapCall("MakeToken", array($params));
+			$_SESSION['token'] = $result->MakeTokenResult->token;
+			$data['token'] = $_SESSION['token'];
+			$data['merchantId'] = $_SESSION['merchantId'];
+            
+            $bank_form_action = 'https://ikc.shaparak.ir/TPayment/Payment/index';
+			$bank_form_data= $data;
+            $body_action = "SEND_TO_BANK";
+		}
+		else
+		{
+			$error_message ='نام را وارد کنید<br/>';
+		}
+	}else
+	{
+		$error_message ='مبلغ صحیح نیست <br/>';
+	}
+	
+}
+
+//##################################################################
+//#
+//#
+//#             بازگشت از بانک و بررسی نتایج
+//#
+
+if (isset($_REQUEST['payback'])) 
+{
+    $body_action = "PAY_BACK";
+    
+    if ($_POST['resultCode'] == '100') 
+    {
+        $referenceId = isset($_POST['referenceId']) ? $_POST['referenceId'] : 0;
+        $client = new SoapClient('https://ikc.shaparak.ir/XVerify/Verify.xml', array('soap_version'   => SOAP_1_1));
+        $params['token'] =  $_SESSION['token'];
+        $params['merchantId'] = $_SESSION['merchantId'];
+        $params['referenceNumber'] = $referenceId;
+        $params['sha1Key'] = $_SESSION['sha1Key'];
+        $result = $client->__soapCall("KicccPaymentsVerification", array($params));
+        $result = ($result->KicccPaymentsVerificationResult);
+
+        if (floatval($result) > 0 && floatval($result) == floatval($_SESSION['amount']) )
+        {	
+            //Payment verfed and OK !
+            $success_massage = '<p><b>پرداخت شما کامل شده است</b><br></p>';
+            $success_massage .= '<p>کد پیگیری : ' . $referenceId . '</p>';
+        }
+        else
+        {
+              $error_message  = '<p><b>پرداخت شما کامل نشد</b><br></p>';
+              $error_message .= '<p>'. messeg2($result). '</p>';
+        }
+
+    }
+    else
+    {
+        $error_message  = '<p><b>پرداخت شما کامل نشد</b><br></p>';
+        $error_message .= '<p>' .messeg($_POST['resultCode']).'</p>';
+    }
+}
+
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, target-densitydpi=medium-dpi, user-scalable=0" />
+	<title>شارژ کیف پول سوار</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <script type="text/javascript">
+        function LoadPage(){
+            redirectToBank(); 
+        }
+        function redirectToBank() {
+            <?php if($body_action == "SEND_TO_BANK") : ?>
+            document.forms["redirect_to_bank"].submit();
+            <?php endif; ?>
+        }
+    </script>
+</head>
+<body onload="LoadPage();">
+    <div id="main">
+        <div class="header">
+            <h1 class="title">شارژ کیف پول سوار</h1>
+            <div class="name">نام کاربر: سید امیر افتخاری</div>
+            <div class="user">کد کاربر: seyyed.a@gmail.com</div>
+        </div>
+
+        <div class="content">
+            
+        <?php if($success_massage != '') : ?>
+            <div class="alert success"><?php echo  $success_massage ?></div>
+        <?php endif; ?>
+        <?php if($error_message != '') : ?>
+            <div class="alert error"><?php echo  $error_message ?></div>
+        <?php endif; ?>
+
+
+
+        <?php if($body_action == "INDEX") : ?>
+            <div class="text">مبلغ شارژ</div>
+            <div class="amount">200,000 <span>ریال</span></div>
+
+            <form action="" method="POST">        
+                <input type="hidden" class="textbox" name="action" id="action" value="pay"/>
+                <input type="hidden" name="fullname" value="سید امیر افتخاری"   />
+                <input type="hidden" name="PayOrderId" value="3453235" />
+                <input type="hidden" name="PayAmount" value="10000" />
+                <input type="hidden" name="email" value="seyyed.a@gmail.com" />
+                <input type="submit" class="btnSubmit" value="تایید و پرداخت آنلاین" />
+            </form>
+        <?php elseif($body_action == "PAY_BACK") : ?>
+
+        <?php elseif($body_action == "SEND_TO_BANK") : ?>
+            
+            <form name="redirect_to_bank" method="post" action="<?php echo  $bank_form_action ?>">
+            <?php
+                if ( is_array($data) ) {
+                    foreach ($data as $key => $val) {
+                        echo '<input type="hidden" name="' . $key . '" value="' . $val . '"> ';
+                    }
+                }
+            ?>
+            </form>
+            <div class="alert info">
+                <p><b>در حال اتصال به درگاه پرداخت</b></p>
+                <p><img src="assets/images/loading.gif" width="70px" /></p>
+                <p>شکیبا باشید</p>
+            </div>
+        <?php endif; ?>
+
+        </div>
+
+        
+        <?php print_r($_POST) ?>
+        
+        <div class="footer">
+            <img src="assets/images/banks.png" />
+        </div>
+        
+    </div>
+
+<!--
+
+    [[[[[[[[[[[[:]]]]]]]]]]]]
+    [:::::::::::::::::::::::]
+    [::::               ::::]
+    [::::  Designed By  ::::]
+    [::::  Seyyed Amir  ::::]
+    [::::   Eftekhari   ::::]
+    [::::               ::::]
+    [::::   1396.1.14   ::::]
+    [:::: majazestan.com::::]
+    [:::::::::::::::::::::::]
+    [[[[[[[[[[[[:]]]]]]]]]]]]
+
+-->
+</body>
+</html>
+
+<?php
+/******************************************************************************
+*
+*       F U N C T I O N S
+*/
+
+// تابع ارسال کاربر به صفحه پرداخت ایران کیش
+function redirect_post($url, array $data)
+{
+
+  echo '
+        <script type="text/javascript">
+            function closethisasap() {
+                document.forms["redirectpost"].submit();
+            }
+        </script>';
+   echo '<form name="redirectpost" method="post" action="'.$url.'">';
+       
+        if ( !is_null($data) ) {
+            foreach ($data as $k => $v) {
+                echo '<input type="hidden" name="' . $k . '" value="' . $v . '"> ';
+            }
+        }
+       
+   echo'</form><div id="main">
+<p>درحال اتصال به درگاه بانک</p></div>';
+   
+    exit;
+}
+
+
+// توابع پیغام زمان برگشت از بانک
+function messeg2($result)
+{
+	switch ($result) 
+	{
+		case '-20':
+				return "در درخواست کارکتر های غیر مجاز وجو دارد";
+			break;
+			case '-30':
+				return " تراکنش قبلا برگشت خورده است";
+			break;
+			case '-50':
+				return " طول رشته درخواست غیر مجاز است";
+			break;
+			case '-51':
+				return " در در خواست خطا وجود دارد";
+			break;
+			case '-80':
+				return " تراکنش مورد نظر یافت نشد";
+			break;
+			case '-81':
+				return " خطای داخلی بانک";
+			break;
+			case '-90':
+				return " تراکنش قبلا تایید شده است";
+			break;
+	}
+}
+function messeg($resultCode)
+{
+	switch ($resultCode) 
+	{
+		case 110:
+				return " انصراف دارنده کارت";
+			break;
+		case 120:
+			return"   موجودی کافی نیست";
+			break;
+		case 130:
+		case 131:
+		case 160:
+			return"   اطلاعات کارت اشتباه است";
+			break;
+		case 132:
+		case 133:
+			return"   کارت مسدود یا منقضی می باشد";
+			break;
+		case 140:
+			return" زمان مورد نظر به پایان رسیده است";
+			break;
+		case 200:
+		case 201:
+		case 202:
+			return" مبلغ بیش از سقف مجاز";
+			break;
+		case 166:
+			return" بانک صادر کننده مجوز انجام  تراکنش را صادر نکرده";
+			break;
+		case 150:
+		default:
+			return " خطا بانک  $resultCode";
+		break;
+	}
+}

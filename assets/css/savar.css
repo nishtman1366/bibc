@@ -1,0 +1,297 @@
+ /* Savar CSS 
+	Created By A.Kameli */
+
+#top-part
+{
+	height: 70px;
+	background-color: #161629!important;
+	color: #fff;
+}
+
+.top-link span .active,.top-link span a,.top-link-login span .active,.top-link-login span a{
+	color: #ffc200;
+	border: 0;
+}
+.top-link span a:hover,.top-link-login span a i:hover,.top-link-login span a:hover
+{
+	border: 0;
+	color: #1fbad6;
+}
+
+.page-contant{
+	margin-top: 70px;
+	background: none;
+	background-color: #eee;
+	padding-bottom: 40px;
+}
+
+.page-contant-inner {
+	padding: 10px 40px;
+	background-color: #fff;
+	border-radius: 20px;
+	margin-top: 30px;
+	display: table;
+}
+
+nav ul#listMenu {
+  background: #09091a;
+}
+
+nav ul#listMenu li a {
+  border-bottom: 1px solid #ffd400;font-family: tahoma;
+}
+
+nav ul#listMenu span b a {
+  border: 1px solid rgb(249, 103, 0);font-family: tahoma;
+}
+
+.header-page {
+font-weight: normal;
+color: #242436;
+    font-size: 33px;
+    text-align: center;
+}
+
+.user-part-login span
+{
+	color: #85ff00;    font-family: tahoma;
+}
+
+.user-part-login span a
+{
+	color: #ddd;
+}
+
+.sign-in-driver {
+  background-color: #fafafa;
+  padding: 10px;
+}
+
+.sign-in-driver,.sign-in-rider
+{
+	min-height: 200px;
+}
+
+.sign-in-rider p
+{
+	width: 100%;
+}
+.driver-profile-img
+{
+	top: -20px;
+	right: -20px;
+}
+.driver-profile-img span
+{
+	border-radius: 20px;
+	border-color: #222233;
+}
+
+.driver-profile-img b a i 
+{
+	background-color: #1fbad6;
+	top: -20px;
+	left: -10px;
+	
+}
+.driver-profile-top-part {
+  width: 90%;
+  margin-right: 5%;
+  margin-top: 25px;
+  background: #f9f9f9 url("../img/Pattern2.png") repeat scroll 0 0;
+  border: 3px solid #eee;
+  border-radius: 20px;
+}
+.driver-profile-info {
+  width: 70%;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.driver-profile-info span a,.driver-profile-mid-part ul li .driver-profile-mid-inner span a
+,.profile-icon i:hover
+{
+	background-color: #1fbad6;
+}
+.driver-profile-info span a,.driver-profile-mid-part ul li .driver-profile-mid-inner span a
+{
+	box-shadow: 0 1px 0 #eee inset, 0 4px 0 #0f8196, 1px 5px 6px 3px rgba(0, 0, 0, 0.3);
+	border-radius:40px;font-family: tahoma;
+}
+
+.required-documents-bottom-part .last a
+{
+	background-color: #1fbad6;
+	box-shadow: 0 1px 0 #eee inset, 0 4px 0 #0f8196, 1px 5px 6px 3px rgba(0, 0, 0, 0.3);
+	border-radius: 0px 20px 0px 20px;
+}
+
+.required-documents-bottom-part .last a:hover
+{
+	box-shadow: 0 1px 0 #eee inset, 0 4px 0 #444, 1px 5px 6px 3px rgba(0, 0, 0, 0.3);
+}
+.driver-profile-bottom-part .last li {
+  border: medium none;
+}
+
+.driver-profile-info span {
+  margin-bottom: 20px;
+}
+
+.footer
+{
+	margin: 0;
+	background-color: #444;
+}
+
+.footer-bottom-part
+{
+	background-color: #222;
+}
+
+.top-link-login span a i
+{
+	margin-right: 0px;
+	margin-left: 5px;	
+}
+.top-link-login span a i:hover
+{
+	margin-right: 0;
+}
+.top-link-login span a {
+  margin: 0 12px 0 8px;
+}
+
+.user-part-login b img {
+  border-radius: 20%;
+}
+.driver-profile-mid-inner > p {
+  direction: ltr;
+}
+.wallet-balance {
+  float: right;
+  font-size: 18pt;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.wallet-balance p
+{
+	margin-top: 15px;
+}
+
+nav section div,nav button div,.modal-content .save,.modal-content .cancel:hover
+{
+	background-color: #ff0000;font-family: tahoma;
+}
+.top-link span .active, .top-link span a, .top-link-login span .active, .top-link-login span a {font-family: tahoma;
+  font-size: 11pt;
+  font-weight: normal;
+}
+
+.driver-profile-mid-part ul li .driver-profile-mid-inner .profile-icon
+{
+	
+	top: -35px;
+}
+.profile-icon i
+{
+	float: right;
+	background-color: #161629;
+}
+
+.driver-profile-mid-part ul li .driver-profile-mid-inner
+{
+	border-radius: 40% 5px; 
+	
+}
+
+nav ul#listMenu .active,nav ul#listMenu li a:hover
+{
+	border-color: #f96700;
+	color:#ffffff;
+}
+
+.trip-detail-page-left,.trip-detail-page-right
+{
+	width: 49%;
+}
+
+.ui-widget,.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
+{
+  font-family: SahelFD;
+}
+
+.company-profile-part ul li {
+  width: 46%;
+}
+.company-profile-part ul li .flipbox {
+  min-height: 280px
+}
+
+/* Flip Box */
+.flipbox
+{
+	position: relative;
+	width: 100%;
+	float: right;
+	height: 200px;
+}
+.flipbox .driver-profile-mid-inner.front
+{
+	position: absolute;
+	background: url("../img/Pattern2.png");
+	top: 0;
+	height:inherit;
+	z-index: 900;
+	text-align: center;
+	-webkit-transform: rotateX(0deg) rotateY(0deg);
+	   -moz-transform: rotateX(0deg) rotateY(0deg);
+	-webkit-transform-style: preserve-3d;
+	   -moz-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	   -moz-backface-visibility: hidden;
+	-webkit-transition: all .4s ease-in-out;
+	   -moz-transition: all .4s ease-in-out;
+		-ms-transition: all .4s ease-in-out;
+		 -o-transition: all .4s ease-in-out;
+			transition: all .4s ease-in-out;
+}
+.flipbox .driver-profile-mid-inner.back
+{
+	position: absolute;
+	background-color: #e8e8f1;
+	top: 0;
+	height:inherit;
+	z-index: 1000;
+	-webkit-transform: rotateY(-180deg);
+	   -moz-transform: rotateY(-180deg);
+	-webkit-transform-style: preserve-3d;
+	   -moz-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	   -moz-backface-visibility: hidden;
+	-webkit-transition: all .4s ease-in-out;
+	   -moz-transition: all .4s ease-in-out;
+		-ms-transition: all .4s ease-in-out;
+		 -o-transition: all .4s ease-in-out;
+			transition: all .4s ease-in-out;
+}
+.flipbox .driver-profile-mid-inner.back .profile-icon i
+{
+	background-color: #1fbad6;
+	float: left;
+}
+
+.flipbox:hover .driver-profile-mid-inner.front {
+	z-index: 900;
+	-webkit-transform: rotateY(180deg);
+	-moz-transform: rotateY(180deg);
+}
+.flipbox:hover .driver-profile-mid-inner.back {
+	z-index: 1000;
+	border-radius: 5px 40%;
+	-webkit-transform: rotateX(0deg) rotateY(0deg);
+	-moz-transform: rotateX(0deg) rotateY(0deg);
+}
+/* Flip Box */
