@@ -2,7 +2,7 @@
     <div class="sidebar-header">
         <div class="user-pic">
             {{--            <img class="img-responsive img-rounded" src="<?php assets('images/icons/user.png'); ?>" alt="">--}}
-            <img class="img-responsive img-rounded" src="optimized/assets/images/icons/user.png" alt="">
+            <img class="img-responsive img-rounded" src="{{assets('images/icons/user.png')}}" alt="">
         </div>
         <div class="user-info">
             {{--            <p><?php echo $_SESSION['sess_vAdminFirstName'] . " " . $_SESSION['sess_vAdminLastName']; ?></p>--}}

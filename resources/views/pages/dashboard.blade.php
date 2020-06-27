@@ -18,7 +18,6 @@
                     }
                 }
             @endphp
-            hello
             @yield('dashboard_content')
         </div>
     </div>

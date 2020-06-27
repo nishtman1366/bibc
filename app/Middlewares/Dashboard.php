@@ -4,7 +4,6 @@
 namespace App\Middlewares;
 
 
-use Jenssegers\Blade\Blade;
 use Pecee\Http\Middleware\IMiddleware;
 use Pecee\Http\Request;
 

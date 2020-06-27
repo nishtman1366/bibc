@@ -31,10 +31,10 @@ if (!function_exists('adminUrl')) {
         }
     }
 }
-if (!function_exists('redirect')) {
-    function redirect()
-    {
-        require_once 'Url.php';
-        return new Url();
-    }
-}
+//if (!function_exists('redirect')) {
+//    function redirect()
+//    {
+//        require_once 'Url.php';
+//        return new Url();
+//    }
+//}

@@ -7,7 +7,9 @@ use Pecee\SimpleRouter\SimpleRouter;
 
 define('BASE_DIR', '/');
 define('BASE_PATH', 'http://localhost/bibc/');
-
+$whoops = new \Whoops\Run;
+$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();
 /*
  * Create the view instance
  */
@@ -25,17 +27,8 @@ require_once 'routes/web.php';
 SimpleRouter::setDefaultNamespace('\App\Controllers');
 
 // Start the routing
-try {
-    SimpleRouter::start();
-} catch (\Pecee\Http\Middleware\Exceptions\TokenMismatchException $e) {
-    echo $e->getMessage();
-} catch (\Pecee\SimpleRouter\Exceptions\NotFoundHttpException $e) {
-    echo $e->getMessage();
-} catch (\Pecee\SimpleRouter\Exceptions\HttpException $e) {
-    echo $e->getMessage();
-} catch (Exception $e) {
-    echo $e->getMessage();
-}
+SimpleRouter::start();
+
 /*
  * End Routes
  */
