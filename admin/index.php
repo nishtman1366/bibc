@@ -7,55 +7,7 @@ if (!isset($generalobjAdmin)) {
 }
 $generalobjAdmin->go_to_home();
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="keywords"
-          content="unique login form,leamug login form,boostrap login form,responsive login form,free css html login form,download login form">
-    <meta name="author" content="leamug">
-    <title>ورود به سیستم</title>
-    <link rel="stylesheet" type="text/css" href="<?php assets('vendor/bootstrap/css/bootstrap.css'); ?>">
-    <style>
 
-    </style>
-</head>
-<body>
-
-<!-- Page Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-md-offset-5 col-md-4 text-center">
-            <h1 class='text-white'>Unique Login Form</h1>
-            <a class="btn btn-danger btn-md" href="https://starttemplates.com" target="_blank">Free download<i
-                        class="fa fa-download pl-2"></i></a>
-            <div class="form-login"></br>
-                <h4>Secure Login</h4>
-                </br>
-                <input type="text" id="userName" class="form-control input-sm chat-input" placeholder="username"/>
-                </br></br>
-                <input type="text" id="userPassword" class="form-control input-sm chat-input" placeholder="password"/>
-                </br></br>
-                <div class="wrapper">
-                        <span class="group-btn">
-                            <a href="#" class="btn btn-primary btn-md">login <i class="fa fa-sign-in"></i></a>
-                        </span>
-                </div>
-            </div>
-        </div>
-    </div>
-    </br></br></br>
-    <!--footer-->
-    <div class="footer text-white text-center">
-        <p>© 2018 Unique Login Form. All rights reserved | Design by <a href="https://starttemplates.com"
-                                                                        rel="dofollow">Leamug</a></p>
-    </div>
-    <!--//footer-->
-</div>
-<script src="<?php assets('vendor/jquery/jquery.min.js'); ?>"></script>
-</body>
-</html>
 <?php
 exit();
 ?>
