@@ -25,8 +25,8 @@
             </div>
             <div class="form-group col-12 col-md-4">
                 <label for="vContactNo">تلفن تماس<span class="red"> *</span></label>
-                <input type="text" pattern="[0-9]{1,}" class="form-control" name="vPhone"
-                       id="vContactNo" value="{{!is_null($user) ? $user['vPhone'] : ''}}" placeholder="Phone" required>
+                <input type="text" pattern="[0-9]{1,}" class="form-control" name="vContactNo"
+                       id="vContactNo" value="{{!is_null($user) ? $user['vContactNo'] : ''}}" placeholder="Phone" required>
             </div>
         </div>
         <div class="row">
@@ -65,7 +65,7 @@
                 <select class="form-control" name="area" id="area" required>
                     <option value="-1">All</option>
                     @foreach($areas as $area)
-                        <option {{ ((!is_null($user) && $area['aId'] == $user['adminArea']) ? 'selected ' : '')}} value="{{$area['aId']}}">{{$area['sAreaNamePersian']}}
+                        <option {{ ((!is_null($user) && $area['aId'] == $user['area']) ? 'selected ' : '')}} value="{{$area['aId']}}">{{$area['sAreaNamePersian']}}
                             - {{$area['sAreaName']}}</option>
                     @endforeach
                 </select>

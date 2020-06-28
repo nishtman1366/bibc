@@ -21,7 +21,8 @@ class UserController extends BaseController
         $groups = $this->dbConnection->query("SELECT * FROM `admin_groups` WHERE 1");
         $user = null;
         if (!is_null($id)) {
-            $user = $this->dbConnection->query(sprintf("SELECT * FROM `administrators` WHERE iAdminId = '%s'", $id));
+            $userResult = $this->dbConnection->query(sprintf("SELECT * FROM `administrators` WHERE iAdminId = '%s'", $id));
+            $user = $userResult->fetch_assoc();
         }
         return view('pages.users.form', compact('areas', 'groups', 'user'));
     }
