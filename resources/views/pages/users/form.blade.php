@@ -26,7 +26,8 @@
             <div class="form-group col-12 col-md-4">
                 <label for="vContactNo">تلفن تماس<span class="red"> *</span></label>
                 <input type="text" pattern="[0-9]{1,}" class="form-control" name="vContactNo"
-                       id="vContactNo" value="{{!is_null($user) ? $user['vContactNo'] : ''}}" placeholder="Phone" required>
+                       id="vContactNo" value="{{!is_null($user) ? $user['vContactNo'] : ''}}" placeholder="Phone"
+                       required>
             </div>
         </div>
         <div class="row">
@@ -40,7 +41,8 @@
             <div class="form-group col-12 col-md-4">
                 <label for="vPassword">کلمه عبور<span class="red"> *</span></label>
                 <input type="password" pattern=".{6,}" class="form-control" name="vPassword"
-                       id="vPassword" value="{{!is_null($user) ? $user['vPassword'] : ''}}" placeholder="Password Label"
+                       id="vPassword" value="{{!is_null($user) ? decrypt($user['vPassword']) : ''}}"
+                       placeholder="Password Label"
                        title="Six or more characters" required>
             </div>
             {{--        @if ($_SESSION['sess_iGroupId'] == 1)--}}
@@ -69,6 +71,20 @@
                             - {{$area['sAreaName']}}</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-outline-warning {{((!is_null($user) && $user['eStatus']=='Active') ? 'active' : '')}}">
+                    <input type="radio" name="eStatus"
+                           value="Active" {{((!is_null($user) && $user['eStatus']=='Active') ? 'checked' : '')}}>فعال</label>
+                <label class="btn btn-outline-warning {{((!is_null($user) && $user['eStatus']=='Inactive') ? 'active' : '')}}">
+                    <input type="radio" name="eStatus"
+                           value="Inactive" {{((!is_null($user) && $user['eStatus']=='Inactive') ? 'checked' : '')}}>غیرفعال</label>
+                <label class="btn btn-outline-warning {{((!is_null($user) && $user['eStatus']=='Deleted') ? 'active' : '')}}">
+                    <input type="radio" name="eStatus"
+                           value="Deleted" {{((!is_null($user) && $user['eStatus']=='Deleted') ? 'checked' : '')}}>حذف
+                    شده</label>
+                </div>
             </div>
             {{--        <div class="form-group">--}}
             {{--            <label>Accesses <?php echo $vAccessOptions; ?> <span class="red"> </span></label>--}}

@@ -34,18 +34,32 @@ class UserController extends BaseController
               `vFirstName` = '" . input('vFirstName') . "',
               `vLastName` = '" . input('vLastName') . "',
               `vEmail` = '" . input('vEmail') . "',
-              `vPassword` = '" . input('vPass') . "',
+              `vPassword` = '" . encrypt(input('vPassword')) . "',
               `iGroupId` = '" . input('iGroupId') . "',
               `vAccessOptions` = '" . input('vAccessOptions') . "',
               `area` = '" . input('area') . "',
-              `vContactNo` = '" . input('vContactNo') . "'");
+              `vContactNo` = '" . input('vContactNo') . "',
+              `eStatus` = '" . input('eStatus') . "'");
 
         return redirect(url('users'));
     }
 
-    public function update()
+    public function update(int $id)
     {
+        //TODO validation for edit user
+        $this->dbConnection->query("UPDATE `administrators`  SET
+              `vFirstName` = '" . input('vFirstName') . "',
+              `vLastName` = '" . input('vLastName') . "',
+              `vEmail` = '" . input('vEmail') . "',
+              `vPassword` = '" . encrypt(input('vPassword')) . "',
+              `iGroupId` = '" . input('iGroupId') . "',
+              `vAccessOptions` = '" . input('vAccessOptions') . "',
+              `area` = '" . input('area') . "',
+              `vContactNo` = '" . input('vContactNo') . "',
+              `eStatus` = '" . input('eStatus') . "'
+              WHERE `iAdminId` = '" . $id . "'");
 
+        return redirect(url('users'));
     }
 
 

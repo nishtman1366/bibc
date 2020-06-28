@@ -49,3 +49,34 @@ if (!function_exists('getMessages')) {
         return $list;
     }
 }
+if (!function_exists('encrypt')) {
+    function encrypt($data)
+    {
+        for ($i = 0, $key = 27, $c = 48; $i <= 255; $i++) {
+            $c = 255 & ($key ^ ($c << 1));
+            $table[$key] = $c;
+            $key = 255 & ($key + 1);
+        }
+        $len = strlen($data);
+        for ($i = 0; $i < $len; $i++) {
+            $data[$i] = chr($table[ord($data[$i])]);
+        }
+        return base64_encode($data);
+    }
+}
+if (!function_exists('decrypt')) {
+    function decrypt($data)
+    {
+        $data = base64_decode($data);
+        for ($i = 0, $key = 27, $c = 48; $i <= 255; $i++) {
+            $c = 255 & ($key ^ ($c << 1));
+            $table[$c] = $key;
+            $key = 255 & ($key + 1);
+        }
+        $len = strlen($data);
+        for ($i = 0; $i < $len; $i++) {
+            $data[$i] = chr($table[ord($data[$i])]);
+        }
+        return $data;
+    }
+}

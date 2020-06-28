@@ -3,8 +3,7 @@
 @section('dashboard_content')
     <div class="col-12">
         <h2 class="text-right">مدیران سیستم</h2>
-        <a class="btn btn-primary" href="{{url('users.new')}}">افزودن
-            ادمین</a>
+            <a class="btn btn-primary pull-left" href="{{url('users.new')}}">افزودن ادمین</a>
     </div>
     <hr/>
     <table class="table table-striped table-bordered table-hover">
@@ -66,7 +65,7 @@
                           method="post"
                           action="{{url('users.delete',['id'=>$user['iAdminId']])}}"
                           onsubmit="return confirm_delete()">
-                        <input type="hidden" name="_method" value="DELETE" />
+                        <input type="hidden" name="_method" value="DELETE"/>
                     </form>
                 </td>
             </tr>
