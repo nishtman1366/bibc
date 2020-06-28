@@ -2,58 +2,66 @@
 
 @section('dashboard_content')
     <div class="col-12">
-        <h2 class="text-right">مدیران سیستم</h2>
-        <a class="btn btn-primary pull-left" href="{{url('users.new')}}">افزودن ادمین</a>
+        <h2 class="text-right">شرکت ها</h2>
+        <a class="btn btn-primary pull-left" href="{{url('companies.new')}}">افزودن شرکت</a>
     </div>
     <hr/>
     <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
-            <th scope="col">نام ادمین</th>
-            <th scope="col">ایمیل</th>
-            <th scope="col">نوع ادمین</th>
+            <th scope="col">نام شرکت</th>
+            <th scope="col">راننده</th>
+            <th scope="col">محدوده</th>
             <th scope="col">موبایل</th>
+            <th scope="col">تاریخ ثبت نام</th>
             <th scope="col">وضعیت</th>
+            <th scope="col">ویرایش اسناد</th>
             <th scope="col">عملیات</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($users as $user)
+        @foreach($companies as $company)
             <tr class="gradeA">
-                <td>{{$user['vFirstName'] . ' ' . $user['vLastName']}}</td>
+                <td>{{$company['vCompany']}}</td>
                 {{--                <td>{{$generalobjAdmin->clearEmail($user['vEmail'])}}</td>--}}
-                <td>{{$user['vEmail']}}</td>
-                <td>{{$user['adminGroups']['vGroup']}}</td>
+                <td><a href="{{url('drivers',['companyId'=>$company['iCompanyId']])}}">{{$company['driversCount']}}</a>
+                </td>
+                <td>{{$company['areaName']}}</td>
                 {{--                <td>{{$generalobjAdmin->clearPhone($user['vContactNo'])}}</td>--}}
-                <td>{{$user['vContactNo']}}</td>
+                <td>{{$company['vPhone']}}</td>
+                <td></td>
                 <td>
-                    @if($user['eDefault'] != 'Yes')
-                        @if($user['eStatus'] == 'Active')
+                    @if($company['iCompanyId'] == 1)
+                        <i class="fa fa-check text-success"></i>
+                    @else
+                        @if($company['eStatus'] == 'Active')
                             <i class="fa fa-check text-success"></i>
-                        @elseif($user['eStatus'] == 'Inactive')
+                        @elseif($company['eStatus'] == 'Inactive')
                             <i class="fa fa-ban text-secondary"></i>
-                        @elseif($user['eStatus'] == 'Deleted')
+                        @elseif($company['eStatus'] == 'Deleted')
                             <i class="fa fa-trash text-danger"></i>
                         @endif
-                    @else
-                        <i class="fa fa-check text-success"></i>
                     @endif
                 </td>
                 <td>
+                    <a href="{{url('documents',['model'=>'company','modelId'=>$company['iCompanyId']])}}"><i
+                                class="fa fa-file"></i></a>
+                </td>
+                <td>
                     <a class="text-primary"
-                       href="{{url('users.edit',['id'=>$user['iAdminId']])}}"
+                       href="{{url('companies.edit',['id'=>$company['iCompanyId']])}}"
                        data-toggle="tooltip" title="ویرایش">
                         <i class="fa fa-pencil"></i>
                     </a>
-                    @if ($user['eDefault'] != 'Yes')
+                    @if ($company['iCompanyId'] != 1)
                         <a class="text-danger" href="#"
-                           onclick="$('#delete_form_{{$user['iAdminId']}}').submit()"
+                           onclick="$('#delete_form_{{$company['iCompanyId']}}').submit()"
                            data-toggle="tooltip" title="حذف">
                             <i class="fa fa-trash"></i>
                         </a>
-                        <form name="delete_form" id="delete_form_{{$user['iAdminId']}}"
+                        <form name="delete_form" id="delete_form_{{$company['iCompanyId']}}"
                               method="post"
-                              action="{{url('users.delete',['id'=>$user['iAdminId']])}}"
+                              action="{{url('companies.delete',['id'=>$company['iCompanyId']])}}"
                               onsubmit="return confirm_delete()">
                             <input type="hidden" name="_method" value="DELETE"/>
                         </form>
