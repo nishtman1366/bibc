@@ -10,7 +10,7 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
         Route::get('/new', 'UserController@form')->name('users.new');
         Route::post('', 'UserController@create')->name('users.create');
         Route::get('/{id}', 'UserController@form')->name('users.edit');
-        Route::put('/{id}', 'UserController@update')->name('users.update');
+        Route::post('/{id}', 'UserController@update')->name('users.update');
         Route::delete('/{id}', 'UserController@delete')->name('users.delete');
     });
 
@@ -20,7 +20,7 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
         Route::get('/documents', 'CompanyController@form')->name('companies.new');
         Route::post('', 'CompanyController@create')->name('companies.create');
         Route::get('/{id}', 'CompanyController@form')->name('companies.edit');
-        Route::put('/{id}', 'CompanyController@update')->name('companies.update');
+        Route::post('/{id}', 'CompanyController@update')->name('companies.update');
         Route::delete('/{id}', 'CompanyController@delete')->name('companies.delete');
     });
 
@@ -28,7 +28,15 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
         Route::get('/{model}/{modelId}', 'DocumentController@index')->name('documents');
     });
 
-    Route::get('/areas', 'AreaController@index')->name('areas');
+    Route::group(['prefix' => 'areas'], function () {
+        Route::get('/', 'AreaController@index')->name('areas');
+        Route::get('/new', 'AreaController@form')->name('areas.new');
+        Route::get('/documents', 'AreaController@form')->name('areas.new');
+        Route::post('', 'AreaController@create')->name('areas.create');
+        Route::get('/{id}', 'AreaController@form')->name('areas.edit');
+        Route::post('/{id}', 'AreaController@update')->name('areas.update');
+        Route::delete('/{id}', 'AreaController@delete')->name('areas.delete');
+    });
 
     Route::group(['prefix' => 'drivers'], function () {
         Route::get('/{companyId?}', 'DriverController@index')->name('drivers');

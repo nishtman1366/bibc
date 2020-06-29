@@ -45,6 +45,20 @@ $whoops->register();
 /*
  * End of Whoops configuration
  */
+/*
+ * Dependency injection
+ */
+//$container = (new \DI\ContainerBuilder())
+//    ->useAutowiring(true)->addDefinitions([
+//        \Illuminate\http\Request::class => function () {
+//            $request = new \Illuminate\Http\Request();
+//            return $request;
+//        },
+//    ])
+//    ->build();
+/*
+ * End of dependency injection
+ */
 
 /*
  * Create the view instance
@@ -61,7 +75,8 @@ require_once 'routes/web.php';
  * Can be overwritten by using the namespace config option on your routes.
  */
 SimpleRouter::setDefaultNamespace('\App\Controllers');
-
+// Add our container to simple-router and enable dependency injection
+//SimpleRouter::enableDependencyInjection($container);
 // Start the routing
 SimpleRouter::start();
 /*

@@ -22,14 +22,14 @@
         <tbody>
         @foreach($companies as $company)
             <tr class="gradeA">
-                <td>{{$company['vCompany']}}</td>
+                <td>{{$company->vCompany}}</td>
                 {{--                <td>{{$generalobjAdmin->clearEmail($user['vEmail'])}}</td>--}}
-                <td><a href="{{url('drivers',['companyId'=>$company['iCompanyId']])}}">{{$company['driversCount']}}</a>
+                <td><a href="{{url('drivers',['companyId'=>$company['iCompanyId']])}}">{{$company['drivers_count']}}</a>
                 </td>
-                <td>{{$company['areaName']}}</td>
+                <td>{{$company->area['sAreaNamePersian']}}</td>
                 {{--                <td>{{$generalobjAdmin->clearPhone($user['vContactNo'])}}</td>--}}
                 <td>{{$company['vPhone']}}</td>
-                <td></td>
+                <td>{{$company->date}}</td>
                 <td>
                     @if($company['iCompanyId'] == 1)
                         <i class="fa fa-check text-success"></i>
@@ -44,7 +44,7 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{url('documents',['model'=>'company','modelId'=>$company['iCompanyId']])}}"><i
+                    <a href="{{url('documents',['model'=>'companies','modelId'=>$company['iCompanyId']])}}"><i
                                 class="fa fa-file"></i></a>
                 </td>
                 <td>

@@ -31,43 +31,25 @@ class UserController extends BaseController
     public function create()
     {
         //TODO validation for create user
-        $this->dbConnection->query("INSERT INTO `administrators`  SET
-              `vFirstName` = '" . input('vFirstName') . "',
-              `vLastName` = '" . input('vLastName') . "',
-              `vEmail` = '" . input('vEmail') . "',
-              `vPassword` = '" . encrypt(input('vPassword')) . "',
-              `iGroupId` = '" . input('iGroupId') . "',
-              `vAccessOptions` = '" . input('vAccessOptions') . "',
-              `area` = '" . input('area') . "',
-              `vContactNo` = '" . input('vContactNo') . "',
-              `eStatus` = '" . input('eStatus') . "'");
-
+        User::create(input()->all());
         return redirect(url('users'));
     }
 
     public function update(int $id)
     {
         //TODO validation for edit user
-        $this->dbConnection->query("UPDATE `administrators`  SET
-              `vFirstName` = '" . input('vFirstName') . "',
-              `vLastName` = '" . input('vLastName') . "',
-              `vEmail` = '" . input('vEmail') . "',
-              `vPassword` = '" . encrypt(input('vPassword')) . "',
-              `iGroupId` = '" . input('iGroupId') . "',
-              `vAccessOptions` = '" . input('vAccessOptions') . "',
-              `area` = '" . input('area') . "',
-              `vContactNo` = '" . input('vContactNo') . "',
-              `eStatus` = '" . input('eStatus') . "'
-              WHERE `iAdminId` = '" . $id . "'");
+        $user = User::find($id);
+        $user->fill(input()->all());
+        $user->save();
 
         return redirect(url('users'));
     }
 
-
     public function delete(int $id)
     {
         if (!is_null($id)) {
-            $this->dbConnection->query(sprintf("UPDATE administrators SET eStatus = 'Deleted' WHERE iAdminId = '%s'", $id));
+//            User::destroy($id);
+            User::find($id)->update(['eStatus' => 'Deleted']);
         }
         return redirect(url('users'));
     }

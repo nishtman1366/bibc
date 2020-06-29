@@ -10,7 +10,6 @@
     <form method="post" action="{{$action}}">
         @if(!is_null($user))
             <input type="hidden" name="iAdminId" value="{{$user['iAdminId']}}"/>
-            <input type="hidden" name="_method" value="PUT"/>
         @endif
         <div class="row">
             <div class="form-group col-12 col-md-4">
