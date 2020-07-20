@@ -14,7 +14,8 @@
         <ul>
             @foreach($sidebar['menu']['items'] as $item)
                 <li>
-                    <a href="{{$item['href']}}"><i class="fa {{$item['icon']}}"></i>{{$item['title']}}</a>
+                    <a href="{{$item['href']}}" {{((isset($active) && $active==$item['name']) ? 'class=text-info' : '')}}>
+                        <i class="fa {{$item['icon']}}"></i>{{$item['title']}}</a>
                 </li>
             @endforeach
         </ul>

@@ -147,26 +147,26 @@ if (isset($_POST['submitbtn'])) {
 
 
     $query = $q . " `register_driver` SET
-		`vName` = '" . $vName . "',
-		`vLastName` = '" . $vLastName . "',
-		`vCountry` = '" . $vCountry . "',
-		`vCode` = '" . $vCode . "',
-		`vEmail` = '" . $vEmail . "',
-		`vLoginId` = '" . $vEmail . "',
-		`vPassword` = '" . $vPass . "',
-		`iCompanyId` = '" . $iCompanyId . "',
-		`vPhone` = '" . $vPhone . "',
-		`vCity` = '" . $vCity . "',
-    `vImage` = '" . $vImage . "',
-    `vPaymentEmail` = '" . $vPaymentEmail . "',
-    `vBankAccountHolderName` = '" . $vBankAccountHolderName . "',
-    `vBankLocation` = '" . $vBankLocation . "',
-    `vBankName` = '" . $vBankName . "',
-    `vAccountNumber` = '" . $vAccountNumber . "',
-    `vBIC_SWIFT_Code` = '" . $vBIC_SWIFT_Code . "',
-		`tProfileDescription` = '" . $tProfileDescription . "',
-    `vCurrencyDriver`='" . $vCurrencyDriver . "',
-		`vLang` = '" . $vLang . "' $str" . $where;
+`vName` = '" . $vName . "',
+`vLastName` = '" . $vLastName . "',
+`vCountry` = '" . $vCountry . "',
+`vCode` = '" . $vCode . "',
+`vEmail` = '" . $vEmail . "',
+`vLoginId` = '" . $vEmail . "',
+`vPassword` = '" . $vPass . "',
+`iCompanyId` = '" . $iCompanyId . "',
+`vPhone` = '" . $vPhone . "',
+`vCity` = '" . $vCity . "',
+`vImage` = '" . $vImage . "',
+`vPaymentEmail` = '" . $vPaymentEmail . "',
+`vBankAccountHolderName` = '" . $vBankAccountHolderName . "',
+`vBankLocation` = '" . $vBankLocation . "',
+`vBankName` = '" . $vBankName . "',
+`vAccountNumber` = '" . $vAccountNumber . "',
+`vBIC_SWIFT_Code` = '" . $vBIC_SWIFT_Code . "',
+`tProfileDescription` = '" . $tProfileDescription . "',
+`vCurrencyDriver`='" . $vCurrencyDriver . "',
+`vLang` = '" . $vLang . "' $str" . $where;
     //echo '<pre>'; print_r($query); exit;
     $obj->sql_query($query);
 

@@ -67,7 +67,7 @@
 @push('js')
     <script>
         function confirm_delete() {
-            return confirm("Are You sure You want to Delete Driver?");
+            return confirm("آیا از حذف راننده مطمئن هستید؟");
         }
     </script>
 @endpush

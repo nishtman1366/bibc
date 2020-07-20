@@ -15,13 +15,15 @@ class Controller
      */
     public function __construct()
     {
-        $servername = "localhost";
-        $username = "root";
-        $password = "Nil00f@r1869";
-        $dbName = "bibc";
-        $this->dbConnection = new mysqli($servername, $username, $password, $dbName);
-        if ($this->dbConnection->connect_error) {
-            die("Connection failed: " . $this->dbConnection->connect_error);
-        }
+//        $servername = "localhost";
+//        $username = "root";
+//        $password = "Nil00f@r1869";
+//        $dbName = "bibc";
+//        $this->dbConnection = new mysqli($servername, $username, $password, $dbName);
+//        if ($this->dbConnection->connect_error) {
+//            die("Connection failed: " . $this->dbConnection->connect_error);
+//        }
     }
+
+
 }

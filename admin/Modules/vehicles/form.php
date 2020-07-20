@@ -374,7 +374,6 @@ if ($Vehicle_type_name == "Ride-Delivery") {
     <script>
 
         function chk1() {
-            // var a = $('div.checkbox-group.required :checkbox:checked').length;
             var a = $('.vehicle-type:checked').length;
             if (a > 0) {
                 return true;
@@ -386,9 +385,7 @@ if ($Vehicle_type_name == "Ride-Delivery") {
 
 
         $('#cartypeClosed').click(function () {
-
             $("#car_error").hide();
-
         });
 
         function get_model(model, modelid) {

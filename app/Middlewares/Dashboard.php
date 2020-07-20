@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Middlewares;
 
 
@@ -19,6 +18,12 @@ class Dashboard implements IMiddleware
             ['name' => 'companies', 'title' => 'شرکت ها', 'href' => url('companies'), 'icon' => 'fa-building'],
             ['name' => 'areas', 'title' => 'مناطق', 'href' => url('areas'), 'icon' => 'fa-flag'],
             ['name' => 'drivers', 'title' => 'رانندگان', 'href' => url('drivers'), 'icon' => 'fa-group'],
+            ['name' => 'vehicles', 'title' => 'وسایل نقلیه', 'href' => url('vehicles'), 'icon' => 'fa-car'],
+            ['name' => 'vehicleTypes', 'title' => 'انواع خودرو', 'href' => url('vehicleTypes'), 'icon' => 'fa-tumblr'],
+            ['name' => 'feeSettings', 'title' => 'تنظیمات نرخ', 'href' => url('feeSettings'), 'icon' => 'fa-money'],
+            ['name' => 'packageTypes', 'title' => 'انواع بسته', 'href' => url('packageTypes'), 'icon' => 'fa-shopping-bag'],
+            ['name' => 'passengers', 'title' => 'مسافران', 'href' => url('passengers'), 'icon' => 'fa-car'],
+            ['name' => 'bookings', 'title' => 'لیست رزروها', 'href' => url('bookings'), 'icon' => 'fa-book'],
         ];
         $sidebar['menu']['items'] = $items;
         $blade->share('sidebar', $sidebar);

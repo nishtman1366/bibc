@@ -5,34 +5,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Jenssegers\Blade\Blade;
 use Pecee\SimpleRouter\SimpleRouter;
 
-/*
- * Eloquent ORM to use in MVC architecture
- */
-
-use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Events\Dispatcher;
-use Illuminate\Container\Container;
-
-/*
- * Configuration Eloquent ORM
- */
-$capsule = new Capsule;
-$capsule->addConnection([
-    'driver' => 'mysql',
-    'host' => 'localhost',
-    'database' => 'bibc',
-    'username' => 'root',
-    'password' => 'Nil00f@r1869',
-    'charset' => 'utf8',
-    'collation' => 'utf8_unicode_ci',
-    'prefix' => '',
-]);
-$capsule->setEventDispatcher(new Dispatcher(new Container));
-$capsule->setAsGlobal();
-$capsule->bootEloquent();
-/*
- * End configuration of ORM
- */
+require_once __DIR__ . '/bootstrap.php';
 
 define('BASE_DIR', '/');
 define('BASE_PATH', 'http://localhost/bibc/');
@@ -69,6 +42,7 @@ $blade = new Blade('resources/views', 'storage/framework/cache/views');
  * All About Routes
  */
 require_once 'routes/web.php';
+require_once 'routes/api.php';
 
 /**
  * The default namespace for route-callbacks, so we don't have to specify it each time.

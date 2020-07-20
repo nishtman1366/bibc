@@ -24,7 +24,7 @@
             <tr class="gradeA">
                 <td>{{$company->vCompany}}</td>
                 {{--                <td>{{$generalobjAdmin->clearEmail($user['vEmail'])}}</td>--}}
-                <td><a href="{{url('drivers',['companyId'=>$company['iCompanyId']])}}">{{$company['drivers_count']}}</a>
+                <td><a href="{{url('companies.drivers',['id'=>$company['iCompanyId']])}}">{{$company['drivers_count']}}</a>
                 </td>
                 <td>{{$company->area['sAreaNamePersian']}}</td>
                 {{--                <td>{{$generalobjAdmin->clearPhone($user['vContactNo'])}}</td>--}}

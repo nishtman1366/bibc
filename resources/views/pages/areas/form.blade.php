@@ -89,10 +89,8 @@
             scrollWheelZoom: true,
             fullscreenControl: true,
             center: {!! ((!is_null($area) && $area->mapCenter != '') ? $area->mapCenter . ',' : '{lat: 35.6899828, lng: 51.389644},') !!}
-                zoom
-        : {!! ((!is_null($area) && $area->mapZoom != '') ? $area->mapZoom . ',' : '15,') !!}
-        })
-        ;
+                zoom : {!! ((!is_null($area) && $area->mapZoom != '') ? $area->mapZoom . ',' : '15,') !!}
+        });
         var markerGroup = L.layerGroup().addTo(map);
         var longs = [];
         if ($('#sFeatureCollection').val() == "") {

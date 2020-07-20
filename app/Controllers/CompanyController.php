@@ -46,7 +46,6 @@ class CompanyController extends BaseController
         return redirect(url('companies'));
     }
 
-
     public function delete(int $id)
     {
         if (!is_null($id)) {
