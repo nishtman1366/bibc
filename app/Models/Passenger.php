@@ -11,10 +11,18 @@ class Passenger extends Model
 
     protected $primaryKey = 'iUserId';
 
+    protected $fillable = ['vName', 'vLastName', 'vEmail', 'vPhone'];
+
     protected $appends = ['fullName'];
 
     public function getFullNameAttribute()
     {
         return $this->attributes['vName'] . ' ' . $this->attributes['vLastName'];
+    }
+
+
+    public function setToken($token)
+    {
+        $this->apiToken = $token;
     }
 }

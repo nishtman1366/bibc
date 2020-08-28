@@ -14,7 +14,7 @@
                     <input type="hidden" name="iAdminId" value="{{$area['aId']}}"/>
                 @endif
                 <input type="hidden" name="mapCenter" id="mapCenter"
-                       value="{{!is_null($area) ? htmlentities($area->mapCenter) : ''}}"/>
+                       value="{{!is_null($area) ? $area->mapCenter : ''}}"/>
                 <input type="hidden" name="mapZoom" id="mapZoom"
                        value="{{!is_null($area) ? $area->mapZoom : ''}}"/>
                 <div class="form-group">
@@ -64,63 +64,118 @@
             </form>
         </div>
         <div class="col-12 col-md-7">
-            <div class="gmap-div gmap-div1" style="float:right;width:100%;">
-                <div id="map" class="gmap3"></div>
-                <input type="button" class="btn btn-warning" value="رسم چندضلعی"
-                       onclick="polygon2()">
-                <input type="button" class="btn btn-info" value="بروز رسانی نقشه"
-                       onclick="ResetMap()"></div>
-        </div>
+            <div id="map" style="width: 100%;height: 100%"></div>
+            <input type="button" class="btn btn-warning" value="رسم چندضلعی" id="addPolygon">
+            <input type="button" class="btn btn-info" value="بروز رسانی نقشه" id="resetMap"></div>
     </div>
 @endsection
 @push('css')
-    <link href='https://api.cedarmaps.com/cedarmaps.js/v1.8.0/cedarmaps.css' rel='stylesheet'/>
+    <link rel="stylesheet" href="{{assets('vendor/map.ir/css/mapp.min.css')}}">
+    <link rel="stylesheet" href="{{assets('vendor/map.ir/css/fa/style.css')}}">
+    <style>
+
+    </style>
 @endpush
 @push('js')
-    <script src='https://api.cedarmaps.com/cedarmaps.js/v1.8.0/cedarmaps.js'></script>
+    <script type="text/javascript" src="{{assets('vendor/map.ir/js/mapp.env.js')}}"></script>
+    <script type="text/javascript" src="{{assets('vendor/map.ir/js/mapp.min.js')}}"></script>
+@endpush
+@push('js')
     <script type="text/javascript">
-        L.cedarmaps.accessToken = '4a0a95307ce57f099d59085bf0b36c46668124b2'; // See the note below on how to get an access token
-
-        // Getting maps info from a tileJSON source
-        var dddd = 0;
-        var sssss = 0;
-        var tileJSONUrl = 'https://api.cedarmaps.com/v1/tiles/cedarmaps.streets.json?access_token=' + L.cedarmaps.accessToken;
-        var map = L.cedarmaps.map('map', tileJSONUrl, {
-            scrollWheelZoom: true,
-            fullscreenControl: true,
-            center: {!! ((!is_null($area) && $area->mapCenter != '') ? $area->mapCenter . ',' : '{lat: 35.6899828, lng: 51.389644},') !!}
-                zoom : {!! ((!is_null($area) && $area->mapZoom != '') ? $area->mapZoom . ',' : '15,') !!}
-        });
-        var markerGroup = L.layerGroup().addTo(map);
-        var longs = [];
-        if ($('#sFeatureCollection').val() == "") {
-
-        } else {
-            ss = JSON.parse($('#sFeatureCollection').val());
-
-            for (i = 0; i <= ss.features[0].geometry.coordinates[0].length - 1; i++) {
-
-                longs.push([ss.features[0].geometry.coordinates[0][i][1], ss.features[0].geometry.coordinates[0][i][0]],);
-                //console.log(long.lat[0]);
+        $(document).ready(function () {
+            let polygonExists = false;
+            let mapCenter = $("#mapCenter").val();
+            if (mapCenter !== '') {
+                mapCenter = JSON.parse(mapCenter);
+            } else {
+                mapCenter = {
+                    lat: 33.22949814144951,
+                    lng: 54.62402343750001,
+                };
             }
-            //console.log(longs);
+            let mapZoom = $("#mapZoom").val();
+            if (mapZoom === '') {
+                mapZoom = 5;
+            }
+            let mapIrApiKey = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImVlMTQ4ZGYxYWYwNDUwMDY5YjBlMzgwOGFlYTMwMjUxNWI0ZmFmNGU3N2Y0Nzc3MmY2MGFlZDJjY2JkNWE4ZmZiMzE2MTgxNjg4NGZjNjM5In0.eyJhdWQiOiIxMDIxMyIsImp0aSI6ImVlMTQ4ZGYxYWYwNDUwMDY5YjBlMzgwOGFlYTMwMjUxNWI0ZmFmNGU3N2Y0Nzc3MmY2MGFlZDJjY2JkNWE4ZmZiMzE2MTgxNjg4NGZjNjM5IiwiaWF0IjoxNTk1NjYxMTc0LCJuYmYiOjE1OTU2NjExNzQsImV4cCI6MTU5ODI1MzE3NCwic3ViIjoiIiwic2NvcGVzIjpbImJhc2ljIl19.s0WWrZ2u-B4R9QaI5fxCozQWCP5QFQScUU2bhIt017_Bbpg0ZrnvA_4Ze1ebbSrVAdbGezuyf37ny3ux7Sg4ZO5rttA4EoF1VndtkVsR-br2G7p7FYMKb_e5adZwDrKos8n2mtS6Cytg3ebphaOSUy1GBNS-8rXSU3CsuUgC9AxXsjAIySS5APVoJaBQ9aj3tfO83rY0f1Is34D4emtC39bpw8ZGuj5U9yp4gQrbh7AgWqf217OFE3Od85n8Q8fOEvSN-XrFxE_Rr_dxTes8okfdsnUEiJ-Ha7LIO7lH4efHX1J6SiuwlOrfjasZRexNa1s3Jll3rS-MOP-oOHXKFQ';
+            let selectedPoints = [];
 
-            polygon = L.polygon(longs, {color: 'black'}).addTo(map);
-            dddd = 1;
-            //mapinit();
-        }
-        map.on('click', function (e) {
-            //marker = new L.marker(e.latlng).addTo(map);
-            L.marker(e.latlng).addTo(markerGroup);
-            longs.push([e.latlng.lat, e.latlng.lng],);
-            sssss++;
-        });
+            let map = new Mapp({
+                element: '#map',
+                presets: {
+                    latlng: mapCenter,
+                    zoom: mapZoom,
+                },
+                apiKey: mapIrApiKey
+            });
+            map.addLayers();
+            let areaPolygon = $("#sFeatureCollection").val();
+            if (areaPolygon !== '') {
+                areaPolygon = JSON.parse(areaPolygon);
+                let areaPolygonPoints = areaPolygon.features[0].geometry.coordinates[0];
+                for (let i = 0; i < areaPolygonPoints.length; i++) {
+                    let latlng = {
+                        lat: areaPolygonPoints[i][1],
+                        lng: areaPolygonPoints[i][0],
+                    }
+                    selectedPoints.push(latlng);
+                    addMarkerToMap('marker_' + (selectedPoints.length + 1), latlng);
+                }
+                if (selectedPoints.length >= 3) {
+                    addPolygon(selectedPoints);
+                }
+                console.log(selectedPoints);
+            }
+            map.map.on('click', function (e) {
+                selectedPoints.push(e.latlng);
+                addMarkerToMap('marker_' + (selectedPoints.length + 1), e.latlng);
+            });
+            $("#addPolygon").click(function () {
+                if (polygonExists) {
+                    map.removePolygons({
+                        group: map.groups.features.polygons,
+                    });
+                    map.removeMarkers({
+                        group: map.groups.features.markers,
+                    });
+                    selectedPoints = [];
+                    polygonExists = false;
+                } else {
+                    if (selectedPoints.length >= 3) {
+                        addPolygon(selectedPoints);
+                    }
+                }
+            });
 
-        function polygon2() {
-            if (dddd == 0 && sssss > 0) {
-                polygon = L.polygon(longs, {color: 'black'}).addTo(map);
-                dddd = 1;
-                var geojsonFeature = {
+            function addMarkerToMap(name, coordinates, icon) {
+                var marker = map.addMarker({
+                    name: name,
+                    latlng: {
+                        lat: coordinates.lat,
+                        lng: coordinates.lng,
+                    },
+                    icon: icon ? icon : map.icons.red,
+                    pan: false,
+                    draggable: false,
+                    history: false,
+                    on: {
+                        click: function () {
+                            console.log('Click callback');
+                        },
+                        contextmenu: function () {
+                            console.log('Contextmenu callback');
+                        }
+                    },
+                });
+            }
+
+            function addPolygon(coordinates) {
+                polygonExists = true;
+                let polygon = map.addPolygon({
+                    name: 'area',
+                    coordinates: coordinates,
+                });
+                let geoJsonFeature = {
                     "type": "FeatureCollection",
                     "features":
                         [{
@@ -132,95 +187,17 @@
                         }
                         ]
                 };
-                $("#sFeatureCollection").val(JSON.stringify(geojsonFeature));
-                //alert("ترسیم شد");
-//console.log(geojsonFeature.features[0].geometry.coordinates[0][0][1]);
-            } else {
-                polygonremove();
-                dddd = 0;
-                markerGroup = L.layerGroup().addTo(map);
-                //	alert("برای ترسیم چند نقطه را بر روی نقشه مشخص کنید");
+                $('#sFeatureCollection').val(JSON.stringify(geoJsonFeature));
             }
 
-        }
-
-        function polygonremove() {
-            window.map.removeLayer(window.polygon);
-            map.removeLayer(markerGroup);
-            longs.length = 0;
-            sssss = 0;
-
-        }
-
-        map.on('drag', function () {
-            $("#mapCenter").val(JSON.stringify(map.getCenter()));
-            $("#mapZoom").val(map.getZoom());
-            //console.log(longs);
+            map.map.on('drag', function () {
+                $("#mapCenter").val(JSON.stringify(map.map.getCenter()));
+                $("#mapZoom").val(map.map.getZoom());
+            });
+            map.map.on('zoom', function () {
+                $("#mapCenter").val(JSON.stringify(map.map.getCenter()));
+                $("#mapZoom").val(map.map.getZoom());
+            });
         });
-        map.on('zoom', function () {
-            $("#mapCenter").val(JSON.stringify(map.getCenter()));
-            $("#mapZoom").val(map.getZoom());
-
-            //console.log('#someButton was clicked');
-        });
-
-
-        function ResetMap() {
-            map.remove();
-            dddd = 1;
-            map = L.cedarmaps.map('map', tileJSONUrl, {
-                scrollWheelZoom: true,
-{{--                {!! !is_null($area) ? 'center: ' . $area->mapCenter : 'center: {lat: 35.6899828, lng: 51.389644},' !!}--}}
-                center: {lat: 35.6899828, lng: 51.389644},
-                fullscreenControl: true
-            });
-            markerGroup = L.layerGroup().addTo(map);
-            longs = [];
-            if ($('#sFeatureCollection').val() == "") {
-
-            } else {
-                ss = JSON.parse($('#sFeatureCollection').val());
-                for (i = 0; i <= ss.features[0].geometry.coordinates[0].length - 1; i++) {
-
-                    longs.push([ss.features[0].geometry.coordinates[0][i][1], ss.features[0].geometry.coordinates[0][i][0]],);
-                    //console.log(long.lat[0]);
-                }
-                //console.log(longs);
-                polygon = L.polygon(longs, {color: 'black'}).addTo(map);
-                //mapinit();
-            }
-
-            map.on('click', function (e) {
-                //marker = new L.marker(e.latlng).addTo(map);
-                L.marker(e.latlng).addTo(markerGroup);
-                longs.push([e.latlng.lat, e.latlng.lng],);
-            });
-            map.on('drag', function () {
-                $("#mapCenter").val(JSON.stringify(map.getCenter()));
-                $("#mapZoom").val(map.getZoom());
-                //console.log(longs);
-            });
-            map.on('zoom', function () {
-                $("#mapCenter").val(JSON.stringify(map.getCenter()));
-                $("#mapZoom").val(map.getZoom());
-
-                //console.log('#someButton was clicked');
-            });
-
-        }
-
-        // Apply listeners to refresh the GeoJson display on a given data layer.
-        function bindDataLayerListeners(dataLayer) {
-            dataLayer.addListener('addfeature', refreshGeoJsonFromData);
-            dataLayer.addListener('removefeature', refreshGeoJsonFromData);
-            dataLayer.addListener('setgeometry', refreshGeoJsonFromData);
-        }
-
-        function refreshGeoJsonFromData() {
-            map.data.toGeoJson(function (geoJson) {
-                console.log(geoJson);
-                $("#sFeatureCollection").val(JSON.stringify(geoJson, null, 2));
-            });
-        }
     </script>
 @endpush

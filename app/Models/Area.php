@@ -10,8 +10,15 @@ class Area extends Model
     protected $table = 'savar_area';
 
     protected $primaryKey = 'aId';
-    
-    protected $fillable=[
+
+    protected $fillable = [
         'sAreaName', 'sAreaNamePersian', 'sSpecialArea', 'sPriority',
-        'sPolygonArea', 'sFeatureCollection', 'sActive', 'mapCenter', 'mapZoom'];
+        'sPolygonArea', 'sFeatureCollection', 'sActive', 'mapCenter', 'mapZoom', 'price_details'];
+
+    protected $appends = ['priceDetails'];
+
+    public function getPriceDetailsAttribute()
+    {
+        return json_decode($this->attributes['price_details']);
+    }
 }

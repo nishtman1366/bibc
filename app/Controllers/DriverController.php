@@ -9,6 +9,8 @@ use App\Models\Country;
 use App\Models\Currency;
 use App\Models\Driver;
 use App\Models\Language;
+use Carbon\Carbon;
+use Illuminate\Database\Capsule\Manager;
 
 class DriverController extends BaseController
 {
@@ -90,5 +92,26 @@ class DriverController extends BaseController
         $drivers = $driversQuery->get();
 
         return response()->json($drivers);
+    }
+
+    public function driverListByLocation()
+    {
+        $input = input()->all();
+        $limitOnlineTime = Carbon::now()->subMinutes(50)->format('Y-m-d H:i:s');
+
+        $sql = sprintf("SELECT ROUND(( 3959 * acos( cos( radians(%s) ) * cos( radians( vLatitude ) ) * cos( radians( vLongitude ) - radians(%s) ) + sin( radians(%s) ) * sin( radians( vLatitude ) ) ) ),2) AS distance, register_driver.*  FROM `register_driver` WHERE (vLatitude != '' AND vLongitude != '' AND vAvailability = 'Available' AND vTripStatus != 'Active' AND eStatus='active' AND tLastOnline > '%s') HAVING distance < %s ORDER BY `register_driver`.`tLastOnline` ASC",
+            $input['lat'], $input['lng'], $input['lat'], $limitOnlineTime, $input['radius']);
+
+        $drivers = Manager::select($sql);
+        $list = [];
+        foreach ($drivers as $driver) {
+            $list[] = [
+                'id' => $driver->iDriverId,
+                'name' => $driver->vName.' '.$driver->vLastName,
+                'location' => ['lat' => $driver->vLatitude, 'lng' => $driver->vLongitude],
+                'address' => $driver->vCaddress
+            ];
+        }
+        return response()->json($list);
     }
 }

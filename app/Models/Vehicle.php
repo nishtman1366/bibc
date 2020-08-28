@@ -13,7 +13,7 @@ class Vehicle extends Model
     protected $primaryKey = 'iDriverVehicleId';
 
     protected $fillable = [
-        'usertype', 'iMakeId', 'iModelId', 'iColor', 'iYear',
+        'iMakeId', 'iModelId', 'iColor', 'iYear',
         'vLicencePlate', 'vLicencePlate_local', 'iCompanyId',
         'iDriverId', 'vCarType', 'eStatus'];
 
@@ -42,6 +42,12 @@ class Vehicle extends Model
     {
         return explode(',', $this->attributes['vCarType']);
     }
+
+    public function setVCarTypeAttribute($value)
+    {
+        $this->attributes['vCarType'] = implode(',', $value);
+    }
+
 
     public function driver()
     {

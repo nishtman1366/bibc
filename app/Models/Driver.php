@@ -30,4 +30,15 @@ class Driver extends Model
     {
         $this->attributes['vPassword'] = encrypt($value);
     }
+
+    public function company()
+    {
+        return $this->belongsTo(\App\Models\Company::class, 'iCompanyId', 'iCompanyId');
+    }
+
+
+    public function setToken($token)
+    {
+        $this->apiToken = $token;
+    }
 }

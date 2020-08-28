@@ -65,7 +65,15 @@
                         ----
                     @endif
                 </td>
-                <td>
+                <td
+                        @if ($booking->eStatus == "Cancel")
+                        data-toggle="tooltip"
+                        data-html="true"
+                        title="<h5>دلیل لغو رزرو</h5>
+                                       <p>کنسل شده توسط: {{$booking->eCancelBy}}</p>
+                                        <p>دلیل لغو: {{$booking->vCancelReason}}</p>"
+                        @endif
+                >
                     @if ($booking->eStatus == "Assign")
                         راننده اختصاص داده شده است
                     @else
@@ -82,16 +90,6 @@
                                 {{$booking->eStatus}}
                             @endif
                         @endif
-                    @endif
-                    @if ($booking->eStatus == "Cancel")
-                        <button class="btn btn-info"
-                                data-toggle="tooltip"
-                                data-html="true"
-                                title="<h5>دلیل لغو رزرو</h5>
-                                       <p>کنسل شده توسط: {{$booking->eCancelBy}}</p>
-                                        <p>دلیل لغو: {{$booking->vCancelReason}}</p>"
-                                data-target="#uiModal_{{$booking->iCabBookingId}}">دلیل کنسلی
-                        </button>
                     @endif
                 </td>
             </tr>

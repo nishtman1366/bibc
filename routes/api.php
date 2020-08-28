@@ -8,4 +8,19 @@ Route::group(['prefix' => '/bibc/api'], function () {
 
 
     Route::post('/vehicles/checkLicense', 'VehicleController@checkLicenseDuplicate');
+
+    Route::get('passengers/byPhone/{phoneNumber}', 'PassengerController@getPassengerByPhone');
+    Route::post('/passengers/quickCreate', 'PassengerController@createPassengerByAjax');
+
+    Route::get('bookings/byUserId/{userId}', 'BookingController@getBookingByUserId');
+
+    Route::post('/bookings/calculateDistanceAndFare', 'BookingController@calculateDistanceAndFare');
+
+    Route::post('/drivers/driverListByLocation', 'DriverController@driverListByLocation');
+
+    /*
+     * request payment by driver
+     */
+    Route::post('/drivers/payments/request', 'PaymentController@requestPayment');
+
 });

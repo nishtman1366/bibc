@@ -44,4 +44,10 @@ class Company extends Model
     {
         return $this->belongsTo(\App\Models\Area::class, 'iAreaId', 'aId');
     }
+
+
+    public function setToken($token)
+    {
+        $this->apiToken = $token;
+    }
 }

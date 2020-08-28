@@ -5,7 +5,7 @@ use Jenssegers\Blade\Blade;
 if (!function_exists('assets')) {
     function assets(string $fileName)
     {
-        return sprintf(BASE_PATH . "optimized/assets/%s", $fileName);
+        return sprintf(BASE_PATH . "resources/assets/%s", $fileName);
     }
 }
 
@@ -78,5 +78,49 @@ if (!function_exists('decrypt')) {
             $data[$i] = chr($table[ord($data[$i])]);
         }
         return $data;
+    }
+}
+
+if (!function_exists('tripCurrency')) {
+    function tripCurrency($price = null, $ratio = null, $defCurrency = null, $decimals = 0)
+    {
+        if (is_null($defCurrency)) {
+            $currency = \App\Models\Currency::where('eDefault', 'Yes')->get()->first();
+        } else {
+            $currency = \App\Models\Currency::where('vName', $defCurrency)->get()->first();
+        }
+
+        if (is_null($ratio) || $ratio == 0) {
+            $formattedPrice = number_format($price, $decimals);
+        } else {
+            $formattedPrice = number_format($price * $ratio, $decimals);
+        }
+        if (is_null($currency)) {
+            return $formattedPrice;
+        } else {
+            return sprintf('%s %s', $formattedPrice, $currency->vSymbol);
+        }
+    }
+}
+
+if (!function_exists('addCurrencySymbol')) {
+    function addCurrencySymbol($price = null, $ratio = null, $defCurrency = null, $decimals = 0)
+    {
+        if (is_null($defCurrency)) {
+            $currency = \App\Models\Currency::where('eDefault', 'Yes')->get()->first();
+        } else {
+            $currency = \App\Models\Currency::where('vName', $defCurrency)->get()->first();
+        }
+
+        if (is_null($ratio) || $ratio == 0) {
+            $formattedPrice = number_format($price, $decimals);
+        } else {
+            $formattedPrice = number_format($price * $ratio, $decimals);
+        }
+        if (is_null($currency)) {
+            return $formattedPrice;
+        } else {
+            return sprintf('%s %s', $formattedPrice, $currency->vSymbol);
+        }
     }
 }

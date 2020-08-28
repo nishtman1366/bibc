@@ -24,18 +24,5 @@
 </div>
 <!--END MENU SECTION -->
 @push('js')
-    <script>
-        $('.sidebar-toggle').click(function () {
-            $("#left").toggleClass("sidebar_hide");
-            if ($("#left").hasClass("sidebar_hide")) {
-                $("#left").addClass("sidebar-minize");
-                $("#left").addClass("sidebar-collapse");
-                //setMenuEnable(0);
-            } else {
-                $("#left").removeClass("sidebar-minize");
-                $("#left").removeClass("sidebar-collapse");
-                //setMenuEnable(1);
-            }
-        });
-    </script>
+
 @endpush

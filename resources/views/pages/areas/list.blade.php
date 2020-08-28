@@ -2,8 +2,8 @@
 
 @section('dashboard_content')
     <div class="col-12">
-        <h2 class="text-right">مدیران سیستم</h2>
-        <a class="btn btn-primary pull-left" href="{{url('areas.new')}}">افزودن ادمین</a>
+        <h2 class="text-right">مناطق</h2>
+        <a class="btn btn-primary pull-left" href="{{url('areas.new')}}">افزودن منطقه جدید</a>
     </div>
     <hr/>
     <table class="table table-striped table-bordered table-hover">

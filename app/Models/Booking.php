@@ -11,6 +11,11 @@ class Booking extends Model
 
     protected $primaryKey = 'iCabBookingId';
 
+    protected $fillable = [
+        'iUserId', 'iDriverId', 'vSourceLatitude', 'vSourceLongitude', 'vDestLatitude', 'vDestLongitude', 'vDistance',
+        'vDuration', 'dBooking_date', 'vSourceAddresss', 'tDestAddress', 'eStatus', 'eAutoAssign', 'tTripComment', 'eCancelBy',
+        'iVehicleTypeId', 'vBookingNo'];
+
     public function passenger()
     {
         return $this->hasOne(\App\Models\Passenger::class, 'iUserId', 'iUserId');

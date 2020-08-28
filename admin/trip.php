@@ -77,7 +77,8 @@ if ($_GET['pagerecord'] == '') {
  FROM register_driver d
  RIGHT JOIN trips t ON d.iDriverId = t.iDriverId
  LEFT JOIN vehicle_type vt ON vt.iVehicleTypeId = t.iVehicleTypeId
- LEFT JOIN  register_user u ON t.iUserId = u.iUserId JOIN company c ON c.iCompanyId=d.iCompanyId
+ LEFT JOIN  register_user u ON t.iUserId = u.iUserId 
+     JOIN company c ON c.iCompanyId=d.iCompanyId
  WHERE 1=1" . $ssql . $ssl . $cmp_ssql . "
  ORDER BY t.iTripId DESC  limit " . $_GET['pagerecord'] * 500 . ',500';
 }

@@ -27,14 +27,6 @@ include_once('send_invoice_receipt.php');
 //echo json_encode($returnArr);exit;
 
 
-if (isset($_GET['amir'])) {
-    TLOG("TEST");
-//    $result = sendEmeSms('09171455977',"سلام");
-//    var_dump($result);
-    die("SMS");
-}
-
-
 /* add Logget By Seyyed AMir */
 //Logger($_REQUEST);
 /* creating objects */
@@ -2000,7 +1992,7 @@ if ($type == "cancelCabRequest") {
 ###########################################################################
 
 if ($type == "sendRequestToDrivers") {
-
+    //TODO request for driver
     $driver_id_auto = isset($_REQUEST["driverIds"]) ? $_REQUEST["driverIds"] : '';
     $message = isset($_REQUEST["message"]) ? $_REQUEST["message"] : '';
     $AppVersion = isset($_REQUEST["AppVersion"]) ? floatval($_REQUEST["AppVersion"]) : 1.0;
@@ -2320,7 +2312,7 @@ if ($type == "sendRequestToDrivers") {
             addToUserRequest($passengerId, $item['iDriverId'], $msg_encode, $final_message['MsgCode']);
             addToDriverRequest($item['iDriverId'], $passengerId, 0, "Timeout", $final_message['MsgCode']);
         }
-
+        //TODO Send notification for driver
         if (count($registation_ids_new) > 0) {
             // $Rmessage = array("message" => $message);
             $Rmessage = array("message" => $msg_encode);

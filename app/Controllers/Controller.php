@@ -4,26 +4,28 @@
 namespace App\Controllers;
 
 
-use mysqli;
+use Illuminate\Http\Request;
 
 class Controller
 {
-    protected mysqli $dbConnection;
+    /**
+     * @var Request
+     */
+    public Request $request;
+    public array $user;
 
     /**
      * Controller constructor.
      */
     public function __construct()
     {
-//        $servername = "localhost";
-//        $username = "root";
-//        $password = "Nil00f@r1869";
-//        $dbName = "bibc";
-//        $this->dbConnection = new mysqli($servername, $username, $password, $dbName);
-//        if ($this->dbConnection->connect_error) {
-//            die("Connection failed: " . $this->dbConnection->connect_error);
-//        }
+        $this->user = [];
+        $this->request = Request::capture();
+        if (key_exists('user', $_SESSION)) {
+            $this->user = $_SESSION['user'];
+        }
+        if (count($this->user) === 0 && url()->contains('panel')) {
+            return redirect(url('login-form'));
+        }
     }
-
-
 }
