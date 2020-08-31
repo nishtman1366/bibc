@@ -2,7 +2,7 @@
 
 use Pecee\SimpleRouter\SimpleRouter as Route;
 
-Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bibc'], function () {
+Route::group(['prefix' => 'bibc'], function () {
     Route::get('/', 'HomeController@index')->name('home');
 
     Route::get('login', 'LoginController@index')->name('login-form');
@@ -27,7 +27,7 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
             });
 
             Route::group(['prefix' => 'payments'], function () {
-                Route::get('{paymentType?}', 'PaymentController@index')->name('driver.payments');
+                Route::get('{paymentType?}', 'PaymentController@indexForDrivers')->name('driver.payments');
             });
 
             Route::group(['prefix' => 'wallet'], function () {
@@ -35,8 +35,12 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
             });
         });
 
+        Route::group(['prefix' => 'company'], function () {
+            Route::get('payments/{paymentType?}/{driverRequest?}', 'PaymentController@indexForCompanies')->name('company.payments');
+        });
+
     });
-    Route::group(['prefix' => 'dashboard'], function () {
+    Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'dashboard'], function () {
         Route::get('/', 'DashboardController@index')->name('dashboard');
         /*
          * مدیریت کاربران
@@ -156,6 +160,10 @@ Route::group(['middleware' => \App\Middlewares\Dashboard::class, 'prefix' => 'bi
 
         Route::group(['prefix' => 'heatmap'], function () {
             Route::get('/', 'HeatmapController@index')->name('heatmap');
+        });
+
+        Route::group(['prefix' => 'payments'], function () {
+            Route::get('/{paymentType?}/{driverRequest?}', 'PaymentController@index')->name('dashboard.payments');
         });
         /*
      * مدیریت بسته ها
