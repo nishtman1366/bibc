@@ -4,6 +4,7 @@
 namespace App\Models;
 
 use \Illuminate\Database\Eloquent\Model;
+use Morilog\Jalali\Jalalian;
 
 class Trip extends Model
 {
@@ -11,7 +12,9 @@ class Trip extends Model
 
     protected $primaryKey = 'iTripId';
 
-    protected $appends = ['eTypeText'];
+    protected $fillable=['eDriverPaymentStatus'];
+
+    protected $appends = ['eTypeText', 'jDate', 'iActiveText', 'vTripPaymentModeText'];
 
     public function getETypeTextAttribute()
     {
@@ -20,6 +23,46 @@ class Trip extends Model
         } elseif ($this->attributes['eType'] == 'Deliver') {
             return 'حمل بار';
         }
+    }
+
+    public function getJDateAttribute()
+    {
+        return Jalalian::forge($this->attributes['tTripRequestDate'])->format('Y/m/d');
+    }
+
+    public function getIActiveTextAttribute()
+    {
+        switch ($this->attributes['iActive']) {
+            case 'Active':
+                return 'فعال';
+                break;
+            case 'Finished':
+                return 'پایان یافته';
+                break;
+            case 'Canceled':
+                return 'کنسل شده';
+                break;
+            case 'On Going Trip':
+                return 'در حال انجام';
+                break;
+        }
+        return 'نامشخص';
+    }
+
+    public function getVTripPaymentModeTextAttribute()
+    {
+        switch ($this->attributes['vTripPaymentMode']) {
+            case 'Cash':
+                return 'نقدی';
+                break;
+            case 'Paypal':
+                return 'پی پال';
+                break;
+            case 'Card':
+                return 'آنلاین';
+                break;
+        }
+        return 'نامشخص';
     }
 
     public function driver()

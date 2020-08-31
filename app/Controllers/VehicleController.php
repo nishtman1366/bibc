@@ -21,8 +21,8 @@ class VehicleController extends Controller
     {
         parent::__construct();
         $this->driver = false;
-        if (isset($_SESSION) && key_exists('user', $_SESSION) && url()->contains('driver')) {
-            $this->driver = $_SESSION['user']['driver']->data;
+        if (count($this->user) !== 0 && url()->contains('driver')) {
+            $this->driver = $_SESSION['user']['driver'];
         }
     }
 

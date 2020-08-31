@@ -18,7 +18,7 @@ class TripController extends Controller
         parent::__construct();
         $this->driver = false;
         if (count($this->user) !== 0 && url()->contains('driver')) {
-            $this->driver = $_SESSION['user']['driver']->data;
+            $this->driver = $_SESSION['user']['driver'];
         }
     }
 
@@ -41,5 +41,21 @@ class TripController extends Controller
             return view('pages.frontend.panel.driver.trips.list', compact('trips'));
         }
         return view('pages.trips.list', compact('trips'));
+    }
+
+    public static function getUserCreditForUnsettledTrips(int $userId, string $userType)
+    {
+        if ($userType === 'driver') {
+            $fieldName = 'iDriverId';
+            $userType = 'Driver';
+        } elseif ($userType === 'passenger') {
+            $fieldName = 'iUserId';
+            $userType = 'Rider';
+        }
+        $tripsDebitsAmount = Trip::where($fieldName, $userId)->where('eDriverPaymentStatus', 'Unsettelled')->sum('fWalletDebit');
+        $tripsDiscountsAmount = Trip::where($fieldName, $userId)->where('eDriverPaymentStatus', 'Unsettelled')->sum('fDiscount');
+        $tripsCommissionsAmount = Trip::where($fieldName, $userId)->where('eDriverPaymentStatus', 'Unsettelled')->sum('fCommision');
+
+        return $tripsDebitsAmount + $tripsDiscountsAmount - $tripsCommissionsAmount;
     }
 }

@@ -26,6 +26,7 @@ class Dashboard implements IMiddleware
             ['name' => 'bookings', 'title' => 'لیست رزروها', 'href' => url('bookings'), 'icon' => 'fa-book'],
             ['name' => 'trips', 'title' => 'سفرها', 'href' => url('trips'), 'icon' => 'fa-map-marked'],
             ['name' => 'heatmap', 'title' => 'تراکم درخواست ها', 'href' => url('heatmap'), 'icon' => 'fa-map'],
+            ['name' => 'payments', 'title' => 'امور مالی', 'href' => url('dashboard.payments'), 'icon' => 'fa-money'],
         ];
         $sidebar['menu']['items'] = $items;
         $blade->share('sidebar', $sidebar);

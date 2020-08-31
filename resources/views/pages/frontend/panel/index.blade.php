@@ -11,9 +11,9 @@
                     <ul>
                         @foreach($user as $role=>$info)
                             @if($role==='company')
-                                <li class="text-right"><a href="{{url('panel')}}">پنل شرکت</a>
+                                <li class="text-right"><a href="{{url('panel')}}">نام شرکت: {{$info->vCompany}}</a>
                                     <ul>
-                                        <li>درخواست های پرداخت</li>
+                                        <li><a href="{{url('company.payments')}}">امور مالی</a> </li>
                                         <li>3</li>
                                         <li>4</li>
                                         <li>5</li>
@@ -21,7 +21,7 @@
                                 </li>
                             @endif
                             @if($role==='driver')
-                                <li class="text-right"><a href="{{url('panel')}}">پنل راننده</a>
+                                <li class="text-right"><a href="{{url('panel')}}">{{$info->fullName}} خوش آمدید</a>
                                     <ul>
                                         <li><a href="{{url('driver.vehicles')}}">خودروها</a></li>
                                         <li><a href="{{url('driver.trips')}}">سفرها</a></li>
@@ -31,7 +31,7 @@
                                 </li>
                             @endif
                             @if($role==='passenger')
-                                <li class="text-right"><a href="{{url('panel')}}">پنل مسافر</a>
+                                <li class="text-right"><a href="{{url('panel')}}">{{$info->fullName}} خوش آمدید</a>
                                     <ul>
                                         <li><a href="{{url('/')}}">خودروها</a></li>
                                         <li><a href="{{url('/')}}">سفرها</a></li>

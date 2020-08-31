@@ -3326,7 +3326,14 @@ class General
             $eUserTypei = "Rider";
         }
 
-        $sql = "INSERT INTO `user_wallet` (`iUserId` , `referenceId` ,`eUserType`,`iBalance`,`eType`,`iTripId`, `eFor`, `tDescription`, `ePaymentStatus`, `dDate`) VALUES ('" . $iUserId . "','" . $referenceId . "','" . $eUserTypei . "', '" . $iBalance . "','" . $eType . "', '" . $iTripId . "', '" . $eFor . "', '" . $tDescription . "', '" . $ePaymentStatus . "', '" . $dDate . "')";
+        $sql = "INSERT INTO `user_wallet` (
+                           `iUserId` , `referenceId` ,`eUserType`,`iBalance`,
+                           `eType`,`iTripId`, `eFor`, `tDescription`, 
+                           `ePaymentStatus`, `dDate`) 
+                           VALUES (
+                                   '" . $iUserId . "','" . $referenceId . "','" . $eUserTypei . "', '" . $iBalance . "',
+                                   '" . $eType . "', '" . $iTripId . "', '" . $eFor . "', '" . $tDescription . "', 
+                                   '" . $ePaymentStatus . "', '" . $dDate . "')";
         $result = $obj->MySQLInsert($sql);
 
         $sql = "SELECT * FROM currency WHERE eStatus = 'Active'";

@@ -30,3 +30,4 @@ ALTER TABLE `cab_booking`
 ALTER TABLE `register_user`
     ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `ePhoneVerified`,
     ADD `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+

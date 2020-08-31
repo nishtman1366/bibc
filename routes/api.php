@@ -22,5 +22,9 @@ Route::group(['prefix' => '/bibc/api'], function () {
      * request payment by driver
      */
     Route::post('/drivers/payments/request', 'PaymentController@requestPayment');
+    /*
+     * تسویه حساب با رانندگان
+     */
+    Route::post('companies/trips/settle', 'PaymentController@tripsSettlement');
 
 });

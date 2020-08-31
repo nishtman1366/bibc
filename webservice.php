@@ -2568,7 +2568,18 @@ if ($type == "addDestination") {
     $iDriverId = isset($_REQUEST["iDriverId"]) ? $_REQUEST["iDriverId"] : '';
 
     if ($userType != "Driver") {
-        $sql = "SELECT ru.iTripId,tr.iDriverId,rd.vTripStatus as driverStatus,rd.iGcmRegId as regId,rd.eDeviceType as deviceType FROM register_user as ru,trips as tr,register_driver as rd WHERE ru.iUserId='$userId' AND tr.iTripId=ru.iTripId AND rd.iDriverId=tr.iDriverId";
+        $sql = "SELECT 
+                       ru.iTripId,
+                       tr.iDriverId,
+                       rd.vTripStatus as driverStatus,
+                       rd.iGcmRegId as regId,
+                       rd.eDeviceType as deviceType 
+                FROM register_user as ru,
+                     trips as tr,
+                     register_driver as rd 
+                WHERE ru.iUserId='$userId' AND 
+                      tr.iTripId=ru.iTripId AND 
+                      rd.iDriverId=tr.iDriverId";
     } else {
         $sql = "SELECT rd.iTripId,rd.vTripStatus as driverStatus,ru.iGcmRegId as regId,ru.eDeviceType as deviceType FROM trips as tr,register_driver as rd ,register_user as ru WHERE ru.iUserId='$userId' AND rd.iDriverId='$iDriverId'";
     }
@@ -4110,7 +4121,19 @@ if ($type == "ProcessEndTrip") {
     $vCurrencyDriver = get_value('register_driver', 'vCurrencyDriver', 'iDriverId', $driverId, '', 'true');
     $currencySymbolDriver = get_value('currency', 'vSymbol', 'vName', $vCurrencyDriver, '', 'true');
 
-    $sql = "SELECT tStartDate,iVehicleTypeId,tStartLat,tStartLong,fRatio_" . $vCurrencyDriver . " as fRatioDriver, vTripPaymentMode,fPickUpPrice,fNightPrice FROM trips WHERE iTripId='$tripId'";
+    $sql = "SELECT 
+                tStartDate,
+                iVehicleTypeId,
+                tStartLat,
+                tStartLong,
+                fRatio_" . $vCurrencyDriver . " as fRatioDriver, 
+                vTripPaymentMode,
+                fPickUpPrice,
+                fNightPrice 
+                FROM 
+                trips 
+            WHERE 
+                iTripId='$tripId'";
     $trip_start_data_arr = $obj->MySQLSelect($sql);
 
     $tripDistance = calcluateTripDistance($tripId);
@@ -4186,6 +4209,7 @@ if ($type == "ProcessEndTrip") {
     $Data_update_trips['fPricePerMin'] = $Fare_data['fPricePerMin'];
     $Data_update_trips['fPricePerKM'] = $Fare_data['fPricePerKM'];
     $Data_update_trips['iBaseFare'] = $Fare_data['iBaseFare'];
+    //TODO where trip data updated and we should add area commission and platform commission and also we have to change fCommision to company commission
     $Data_update_trips['fCommision'] = $Fare_data['fCommision'];
     $Data_update_trips['fDiscount'] = $Fare_data['fDiscount'];
     $Data_update_trips['vDiscount'] = $Fare_data['vDiscount'];

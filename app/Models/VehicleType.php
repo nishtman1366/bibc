@@ -13,6 +13,6 @@ class VehicleType extends Model
 
     public function area()
     {
-        return $this->hasOne(\App\Models\Area::class, 'aId', 'vSavarArea');
+        return $this->belongsTo(\App\Models\Area::class, 'vSavarArea', 'aId');
     }
 }

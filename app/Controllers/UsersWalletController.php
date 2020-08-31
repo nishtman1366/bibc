@@ -23,11 +23,43 @@ class UsersWalletController extends Controller
         }
     }
 
+    /**
+     * @param int $userId
+     * @param string $userType
+     * @param int $amount
+     * @param string $paymentType
+     * @param int $tripId
+     * @param string $eFor
+     * @param string $description
+     * @param string $status
+     * @param string $date
+     * @throws \Exception
+     */
+    public static function addRecordToUserWallet(int $userId, string $userType, int $amount, string $paymentType, int $tripId, string $eFor, string $description, string $status, string $date)
+    {
+        try {
+            UsersWallet::create([
+                'iUserId' => $userId,
+                'referenceId' => null,
+                'eUserType' => $userType,
+                'iBalance' => $amount,
+                'eType' => $paymentType,
+                'iTripId' => $tripId,
+                'eFor' => $eFor,
+                'tDescription' => $description,
+                'ePaymentStatus' => $status,
+                'dDate' => $date,
+            ]);
+        } catch (\Exception $exception) {
+            throw new \Exception();
+        }
+    }
+
     public function index()
     {
         $driver = $this->driver;
         $walletAmount = $this->getUserWalletAmount($this->driver->iDriverId, 'driver');
-
+        $driverCreditForUnsettledTrips = TripController::getUserCreditForUnsettledTrips($driver->iDriverId, 'driver');
         $wallets = UsersWallet::where('iUserId', $driver->iDriverId)->where('eUserType', 'Driver')->get();
         $prevalence = 0;
         foreach ($wallets as $wallet) {
@@ -38,7 +70,7 @@ class UsersWalletController extends Controller
             }
             $prevalence = $wallet->balance;
         }
-        return view('pages.frontend.panel.driver.usersWallet.list', compact('walletAmount', 'wallets'));
+        return view('pages.frontend.panel.driver.usersWallet.list', compact('walletAmount', 'driverCreditForUnsettledTrips', 'wallets'));
     }
 
     public function getUserWalletAmount(int $userId, string $userType)
@@ -51,12 +83,13 @@ class UsersWalletController extends Controller
             $userType = 'Rider';
         }
 
-        $tripsDebitsAmount = Trip::where($fieldName, $userId)->where('eDriverPaymentStatus', 'Unsettelled')->sum('fWalletDebit');
-        $tripsDiscountsAmount = Trip::where($fieldName, $userId)->where('eDriverPaymentStatus', 'Unsettelled')->sum('fDiscount');
-        $tripsCommissionsAmount = Trip::where($fieldName, $userId)->where('eDriverPaymentStatus', 'Unsettelled')->sum('fCommision');
-
         $walletDebitsAmount = UsersWallet::where('iUserId', $userId)->where('eUserType', $userType)->where('eType', 'Debit')->sum('iBalance');
         $walletCreditsAmount = UsersWallet::where('iUserId', $userId)->where('eUserType', $userType)->where('eType', 'Credit')->sum('iBalance');
-        return ($tripsDebitsAmount + $tripsDiscountsAmount - $tripsCommissionsAmount) + ($walletCreditsAmount - $walletDebitsAmount);
+        return ($walletCreditsAmount - $walletDebitsAmount);
+    }
+
+    public function addUserWalletAmount()
+    {
+
     }
 }

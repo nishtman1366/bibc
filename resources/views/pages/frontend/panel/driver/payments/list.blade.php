@@ -5,12 +5,13 @@
         <h2 class="text-right">درآمدهای شما</h2>
         <div class="row">
             <div class="col-12 text-right">
-                <a href="{{url('driver.payments',['paymentType'=>'notRequested'])}}" class="btn btn-outline-info {{$active=='notRequested' ? 'active' : ''}}">سفرهای انجام
-                    شده</a>
-                <a href="{{url('driver.payments',['paymentType'=>'notSettled'])}}" class="btn btn-outline-info {{$active=='notSettled' ? 'active' : ''}}">درخواست
+                <a href="{{url('driver.payments',['paymentType'=>'notRequested'])}}"
+                   class="btn btn-outline-info {{$active=='notRequested' ? 'active' : ''}}">سفرهای تسویه نشده</a>
+                <a href="{{url('driver.payments',['paymentType'=>'notSettled'])}}"
+                   class="btn btn-outline-info {{$active=='notSettled' ? 'active' : ''}}">درخواست
                     های پرداخت</a>
-                <a href="{{url('driver.payments',['paymentType'=>'settled'])}}" class="btn btn-outline-info {{$active=='settled' ? 'active' : ''}}">پرداخت های
-                    انجام شده</a>
+                <a href="{{url('driver.payments',['paymentType'=>'settled'])}}"
+                   class="btn btn-outline-info {{$active=='settled' ? 'active' : ''}}">سفرهای تسویه شده</a>
             </div>
         </div>
         <button id="request-payment-button" class="btn btn-success">درخواست انتقال</button>
@@ -33,7 +34,7 @@
                                 <p><i class="fa fa-money"></i> مبلغ
                                     پرداختی: {{tripCurrency($trip->iFare - $trip->fCommision)}} </p>
                             </div>
-                            @if($trip->ePayment_request=='No')
+                            @if($trip->eDriverPaymentStatus!=='Settelled' || ($trip->eDriverPaymentStatus=='Unsettelled' && $trip->ePayment_request=='No'))
                                 <div class="col-2">
                                     <button
                                             class="btn btn-outline-primary select-trip"

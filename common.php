@@ -12,15 +12,17 @@ if (mysqli_connect_errno($condbc)) {
 }
 mysqli_set_charset($condbc, "utf8");
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . "optimized" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "theme.php";
-require_once __DIR__ . DIRECTORY_SEPARATOR . "optimized" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "router.php";
-require_once __DIR__ . DIRECTORY_SEPARATOR . "optimized" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "variables.php";
-require_once __DIR__ . DIRECTORY_SEPARATOR . "optimized" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "messages.php";
+//require_once __DIR__ . DIRECTORY_SEPARATOR . "optimized" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "theme.php";
+//require_once __DIR__ . DIRECTORY_SEPARATOR . "optimized" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "router.php";
+//require_once __DIR__ . DIRECTORY_SEPARATOR . "optimized" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "variables.php";
+//require_once __DIR__ . DIRECTORY_SEPARATOR . "optimized" . DIRECTORY_SEPARATOR . "helpers" . DIRECTORY_SEPARATOR . "messages.php";
+
 /*
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  */
+
 $stringChars = 'aChar';
 $$stringChars = 'qwertyuiopasdfghjklzxcvbnm,.1234567890-_';
 

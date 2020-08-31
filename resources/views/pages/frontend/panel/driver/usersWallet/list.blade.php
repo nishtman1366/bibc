@@ -5,10 +5,15 @@
         <h2 class="text-right">کیف پول شما</h2>
     </div>
     <div class="row">
-        <div class="col-12">
-            <h3 class="text-center">
+        <div class="col-12 col-md-6">
+            <h5 class="text-center">
                 موجودی کیف پول: {{addCurrencySymbol($walletAmount)}}
-            </h3>
+            </h5>
+        </div>
+        <div class="col-12 col-md-6">
+            <h5 class="text-center">
+                سفرهای تسویه نشده: {{addCurrencySymbol($driverCreditForUnsettledTrips)}}
+            </h5>
         </div>
     </div>
     <hr/>
@@ -18,7 +23,7 @@
                 <div class="card">
                     <div class="card-body text-right">
                         <div class="row">
-                            <div class="col-12">{{$wallet->tDescription}}</div>
+                            <div class="col-12"><i class="fa fa-file-text"></i>{{$wallet->tDescription}}</div>
                         </div>
                         <div class="row">
                             <div class="col-6 col-md-3"><span class="fa fa-money"></span> مبلغ
@@ -31,7 +36,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-6"><span class="fa fa-money"></span> تاریخ تراکنش {{$wallet->dDate}}</div>
+                            <div class="col-6"><span class="fa fa-calendar"></span> تاریخ تراکنش {{$wallet->dDate}}</div>
                             <div class="col-6"><span class="fa fa-cab"></span> مانده
                                 حساب {{addCurrencySymbol($wallet->balance)}}</div>
                         </div>
