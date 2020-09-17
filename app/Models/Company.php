@@ -18,7 +18,17 @@ class Company extends Model
         'vManagerPassword', 'vPhone', 'vCity', 'vCompany', 'iPercentageShare',
         'vInviteCode', 'vVat', 'vCountry', 'eStatus'];
 
-    protected $appends = ['date'];
+    protected $appends = ['userId', 'fullName', 'date'];
+
+    public function getUserIdAttribute()
+    {
+        return $this->attributes['iCompanyId'];
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['vCompany'] . '(' . $this->area->sAreaNamePersian.')';
+    }
 
     public function getDateAttribute()
     {
@@ -45,6 +55,10 @@ class Company extends Model
         return $this->belongsTo(\App\Models\Area::class, 'iAreaId', 'aId');
     }
 
+    public function trips()
+    {
+        return $this->hasMany(\App\Models\Trip::class, 'iCompanyId', 'iCompanyId');
+    }
 
     public function setToken($token)
     {

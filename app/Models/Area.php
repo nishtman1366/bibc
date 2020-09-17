@@ -15,10 +15,25 @@ class Area extends Model
         'sAreaName', 'sAreaNamePersian', 'sSpecialArea', 'sPriority',
         'sPolygonArea', 'sFeatureCollection', 'sActive', 'mapCenter', 'mapZoom', 'price_details'];
 
-    protected $appends = ['priceDetails'];
+    protected $appends = ['userId', 'fullName', 'priceDetails'];
+
+    public function getUserIdAttribute()
+    {
+        return $this->attributes['aId'];
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->attributes['sAreaNamePersian'] . '(' . $this->attributes['sAreaName'] . ')';
+    }
 
     public function getPriceDetailsAttribute()
     {
         return json_decode($this->attributes['price_details']);
+    }
+
+    public function companies()
+    {
+        return $this->hasMany(\App\Models\Company::class, 'iAreaId', 'aId');
     }
 }

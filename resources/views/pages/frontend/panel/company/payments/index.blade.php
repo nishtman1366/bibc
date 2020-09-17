@@ -18,6 +18,7 @@
     <form action="{{url('company.payments')}}" method="get">
         <input type="hidden" name="gFromDate" id="gFromDate" value="{{is_null($fromDate) ? '' : $fromDate}}">
         <input type="hidden" name="gToDate" id="gToDate" value="{{is_null($toDate) ? '' : $toDate}}">
+        <input type="hidden" name="driverId" id="driver-id" value="{{is_null($driverId) ? '' : $driverId}}">
         <div class="row">
             <div class="input-group col-12 m-1">
                 <span class="input-group-text border-left-0"
@@ -32,6 +33,15 @@
                        class="form-control border-right-0 border-left-0 bg-white" readonly
                        style="border-radius: 0;" placeholder="تاریخ بصورت: 1399/01/12"
                        value="">
+                <span class="input-group-text border-left-0"
+                      style="border-radius: 0;">انتخاب راننده:</span>
+                <input id="driver-name" type="text" name="driver"
+                       class="form-control border-right-0 border-left-0 bg-white" readonly
+                       style="border-radius: 0;" placeholder="جهت انتخاب راننده کلیک کنید"
+                       value="">
+                <button type="reset" class="btn btn-secondary  border-right-0 border-left-0" style="border-radius: 0;"
+                        style="border-top-right-radius: 0;border-bottom-right-radius: 0;">حذف فیلترها
+                </button>
                 <button class="btn btn-primary border-right-0"
                         style="border-top-right-radius: 0;border-bottom-right-radius: 0;">جستجو
                 </button>
@@ -122,6 +132,47 @@
             @endif
         </div>
     </div>
+    <div class="modal fade" id="drivers-modal" tabindex="-1" role="dialog" aria-labelledby="drivers-modalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="drivers-modalLabel">راننده های شما</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped hover">
+                        <tr>
+                            <th scope="col">ردیف</th>
+                            <th scope="col">نام</th>
+                            <th scope="col">بستانکاری</th>
+                            <th scope="col">انتخاب</th>
+                        </tr>
+                        @php($i=1)
+                        @foreach($drivers as $driver)
+                            <tr>
+                                <td>{{$i++}}</td>
+                                <td>{{$driver->fullName}}</td>
+                                <td>{{addCurrencySymbol($driver->credit)}}</td>
+                                <td>
+                                    <button class="btn btn-outline-primary select-driver"
+                                            data-driver-id="{{$driver->iDriverId}}"
+                                            data-driver-fullName="{{$driver->fullName}}"
+                                    >انتخاب
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('css')
     <link rel="stylesheet" href="{{assets('vendor/PersianCalendar/jquery.md.bootstrap.datetimepicker.style.css')}}">
@@ -178,6 +229,18 @@
                         })
                 }
             });
+
+            $("#driver-name").click(function () {
+                $("#drivers-modal").modal('toggle');
+            })
+            $(".select-driver").click(function () {
+                $(".select-driver").removeClass('active');
+                $(this).addClass('active');
+                let driverId = $(this).attr('data-driver-id');
+                let driverFullName = $(this).attr('data-driver-fullName');
+                $("#driver-id").val(driverId);
+                $("#driver-name").val(driverFullName);
+            })
         });
     </script>
 @endpush

@@ -13,10 +13,10 @@
                             @if($role==='company')
                                 <li class="text-right"><a href="{{url('panel')}}">نام شرکت: {{$info->vCompany}}</a>
                                     <ul>
-                                        <li><a href="{{url('company.payments')}}">امور مالی</a> </li>
-                                        <li>3</li>
-                                        <li>4</li>
-                                        <li>5</li>
+                                        <li><a href="{{url('company.payments')}}">امور مالی</a></li>
+                                        <li><a href="{{url('company.drivers')}}">راننده ها</li>
+                                        <li><a href="">سفرها</a></li>
+                                        <li><a href="">رزروها</a></li>
                                     </ul>
                                 </li>
                             @endif

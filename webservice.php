@@ -3406,34 +3406,29 @@ if ($type == "GenerateTrip") {
     //         exit;
     // }
 
-    $sql = "SELECT tSecDestination,delayId,tReturn,secDestLatitude,secDestLongitude,secDestAddress,vCallFromDriver,vTripStatus,vTripPaymentMode,iSelectedCarType,tDestinationLatitude,tDestinationLongitude,tDestinationAddress,vCurrencyPassenger,vCouponCode,eType,iPackageTypeId,vReceiverName,vReceiverMobile,tPickUpIns,tDeliveryIns,tPackageDetails,fPickUpPrice,fNightPrice,iAppVersion,iUserPetId FROM register_user WHERE iUserId='$passenger_id'";
+    $sql = "SELECT 
+       tSecDestination,delayId,tReturn,secDestLatitude,secDestLongitude,
+       secDestAddress,vCallFromDriver,vTripStatus,vTripPaymentMode,
+       iSelectedCarType,tDestinationLatitude,tDestinationLongitude,
+       tDestinationAddress,vCurrencyPassenger,vCouponCode,eType,
+       iPackageTypeId,vReceiverName,vReceiverMobile,tPickUpIns,tDeliveryIns,
+       tPackageDetails,fPickUpPrice,fNightPrice,iAppVersion,iUserPetId FROM register_user WHERE iUserId='$passenger_id'";
     $check_row = $obj->MySQLSelect($sql);
 
     $check_assign_driver = $check_row[0]['vCallFromDriver'];
 
     if ($check_assign_driver != "assign") {
-
-
         $check_trip_request = $check_row[0]['vTripStatus'];
-
         if ($check_trip_request == "Requesting" || $iCabBookingId != "") {
-
             $where = " iUserId = '$passenger_id'";
-
             $Data_update_passenger['vCallFromDriver'] = 'assign';
-
             $id = $obj->MySQLQueryPerform("register_user", $Data_update_passenger, 'update', $where);
-
             $sql = "SELECT iDriverVehicleId,vCurrencyDriver,iAppVersion FROM `register_driver` WHERE iDriverId = '$driver_id'";
             $Data_vehicle = $obj->MySQLSelect($sql);
-
             $CAR_id_driver = $Data_vehicle[0]['iDriverVehicleId'];
-
             if ($iCabBookingId != "") {
                 $sql_booking = "SELECT vDestLatitude,vDestLongitude,tDestAddress,ePayType,iVehicleTypeId,eType,iPackageTypeId,vReceiverName,vReceiverMobile,tPickUpIns,tDeliveryIns,tPackageDetails,fPickUpPrice,fNightPrice,iUserPetId,vCouponCode FROM cab_booking WHERE iCabBookingId='$iCabBookingId'";
-
                 $data_booking = $obj->MySQLSelect($sql_booking);
-
                 $iSelectedCarType = $data_booking[0]['iVehicleTypeId'];
                 $vTripPaymentMode = $data_booking[0]['ePayType'];
                 $tDestinationLatitude = $data_booking[0]['vDestLatitude'];
@@ -3527,6 +3522,15 @@ if ($type == "GenerateTrip") {
                 $vSavarAreaId = 0;
 
             $Data_trips['iAreaId'] = $vSavarAreaId;
+
+            /*
+             * بدست آوردن شرکتی که راننده در آن استخدام شده است.
+             */
+            $iCompanyId = 0;
+            $iCompanyId = get_value('register_driver', 'iCompanyId', 'iDriverId', $Data_trips['iDriverId'], '', 'true');
+            if ($iCompanyId == '')
+                $iCompanyId = 0;
+            $Data_trips['iCompanyId'] = $iCompanyId;
             ////////////////////////////////////////
 
             if ($vCouponCode != '') {
@@ -4210,6 +4214,21 @@ if ($type == "ProcessEndTrip") {
     $Data_update_trips['fPricePerKM'] = $Fare_data['fPricePerKM'];
     $Data_update_trips['iBaseFare'] = $Fare_data['iBaseFare'];
     //TODO where trip data updated and we should add area commission and platform commission and also we have to change fCommision to company commission
+    /*
+     * جهت محاسبه کمسیون مربوط به ناحیه و پلتفرم
+     * باید مقدار سهم مشارکت هر کدام از جداول مربوطه
+     * دریافت و در محاسبات لحاظ شود
+     * سهم ناحیه با توجه به شرکت طرف قرارداد با راننده
+     * انتخاب شده در جدول company ذخیره شده است
+     * سهم پلتفرم هم طبق قرارداد با ناحیه مورد نظر در جدول
+     * مربوطه savar_area برای هر ناحیه ذخیره شده است
+     */
+    $Data_update_trips['area_commission'] = 0;
+    $Data_update_trips['platform_commission'] = 0;
+
+
+
+
     $Data_update_trips['fCommision'] = $Fare_data['fCommision'];
     $Data_update_trips['fDiscount'] = $Fare_data['fDiscount'];
     $Data_update_trips['vDiscount'] = $Fare_data['vDiscount'];

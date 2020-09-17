@@ -14,7 +14,6 @@ ALTER TABLE `driver_vehicle`
     ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `vCarType`,
     ADD `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
 
-
 ALTER TABLE `SnapSettings`
     ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `setting_value`,
     ADD `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
@@ -31,3 +30,16 @@ ALTER TABLE `register_user`
     ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `ePhoneVerified`,
     ADD `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
 
+ALTER TABLE `trips`
+    ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `fTipPrice`,
+    ADD `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;
+ALTER TABLE `trips`
+    ADD `iCompanyId` INT NOT NULL DEFAULT '0' AFTER `iAreaId`;
+ALTER TABLE `trips`
+    ADD `area_commission` INT NOT NULL DEFAULT '0' AFTER `fCommision`;
+ALTER TABLE `trips`
+    ADD `platform_commission` INT NOT NULL DEFAULT '0' AFTER `area_commission`;
+
+ALTER TABLE `coupon`
+    ADD `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `eStatus`,
+    ADD `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_at`;

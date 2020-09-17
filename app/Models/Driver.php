@@ -4,7 +4,9 @@
 namespace App\Models;
 
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Morilog\Jalali\Jalalian;
 
 class Driver extends Model
 {
@@ -19,11 +21,29 @@ class Driver extends Model
 
     protected $primaryKey = 'iDriverId';
 
-    protected $appends = ['fullName'];
+    protected $appends = ['userId', 'fullName', 'jLastOnline', 'isDriverOnline'];
+
+    public function getUserIdAttribute()
+    {
+        return $this->attributes['iDriverId'];
+    }
 
     public function getFullNameAttribute()
     {
         return $this->attributes['vName'] . ' ' . $this->attributes['vLastName'];
+    }
+
+    public function getJLastOnlineAttribute()
+    {
+        if ($this->attributes['tLastOnline'] === '0000-00-00 00:00:00') return '---';
+        return Jalalian::forge($this->attributes['tLastOnline'])->format('Y/m/d h:i:s');
+    }
+
+    public function getIsDriverOnlineAttribute()
+    {
+        $now = Carbon::now()->subMinutes(5);
+        if ($this->attributes['tLastOnline'] > $now) return true;
+        return false;
     }
 
     public function setVPasswordAttribute($value)

@@ -14,7 +14,7 @@ $capsule = new Capsule;
 $capsule->addConnection([
     'driver' => 'mysql',
     'host' => 'localhost',
-    'database' => 'bibc',
+    'database' => 'bibc2',
     'username' => 'root',
     'password' => 'Nil00f@r1869',
     'charset' => 'utf8',

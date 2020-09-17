@@ -13,13 +13,17 @@ class Passenger extends Model
 
     protected $fillable = ['vName', 'vLastName', 'vEmail', 'vPhone'];
 
-    protected $appends = ['fullName'];
+    protected $appends = ['userId', 'fullName'];
+
+    public function getUserIdAttribute()
+    {
+        return $this->attributes['iUserId'];
+    }
 
     public function getFullNameAttribute()
     {
         return $this->attributes['vName'] . ' ' . $this->attributes['vLastName'];
     }
-
 
     public function setToken($token)
     {

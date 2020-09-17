@@ -570,7 +570,7 @@ $data_drv_me = $obj->MySQLSelect($sql);
                         <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                         <?php echo $var_msg ?>
                     </div>
-                <?
+                    <?
                 } else if ($_REQUEST['success'] == 2) { ?>
                     <div class="alert alert-danger alert-dismissable">
                         <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>

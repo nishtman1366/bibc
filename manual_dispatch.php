@@ -448,8 +448,8 @@ if ($action == 'Edit') {
                                             <td>---<br>( نوع ماشین : <?php echo $data_drv[$i]['vVehicleType']; ?>)</td>
                                         <?php } ?>
                                         <td><?php if ($data_drv[$i]['iTripId'] != "" && $data_drv[$i]['eStatus'] == "Completed") { ?>
-                                                <a class="btn btn-primary"
-                                                   href="invoice.php?iTripId=<?php echo base64_encode(base64_encode($data_drv[$i]['iTripId'])); ?>">
+                                            <a class="btn btn-primary"
+                                               href="invoice.php?iTripId=<?php echo base64_encode(base64_encode($data_drv[$i]['iTripId'])); ?>">
                                                     View</a><?php } else {
                                                 echo "---";
                                             } ?></td>

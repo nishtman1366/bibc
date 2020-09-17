@@ -22,7 +22,8 @@ class LoginController extends Controller
         $username = $this->request->get('username');
         $password = $this->request->get('password');
         $_SESSION['user'] = [];
-        $company = Company::where('vPhone', $username)
+        $company = Company::with('area')
+            ->where('vPhone', $username)
             ->where('vPassword', encrypt($password))
             ->get()
             ->first();

@@ -11,22 +11,47 @@ use App\Models\Driver;
 use App\Models\Language;
 use Carbon\Carbon;
 use Illuminate\Database\Capsule\Manager;
+use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 
 class DriverController extends BaseController
 {
+    public $company = null;
+
+    /**
+     * DriverController constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        if (count($this->user) !== 0 && url()->contains('company')) {
+            $this->company = $this->user['company'];
+        }
+    }
+
     public function index(int $id = null)
     {
-        $driversQuery = Driver::orderBy('vLastName', 'ASC');
+        $company = $this->company;
+        $driversQuery = Driver::where(function ($query) use ($company) {
+            if (!is_null($company)) {
+                $query->where('iCompanyId', $company->iCompanyId);
+            }
+        })->orderBy('vLastName', 'ASC');
         if (!is_null($id)) $driversQuery->where('iCompanyId', $id);
         $drivers = $driversQuery->get();
 
+        if ($company) return view('pages.frontend.panel.company.drivers.list', compact('drivers'));
         return view('pages.drivers.list', compact('drivers'));
     }
 
     public function form(int $id = null)
     {
+        $company = $this->company;
         $countries = Country::where('eStatus', 'active')->orderBy('vCountry', 'ASC')->get();
-        $companies = Company::where('eStatus', 'active')->orderBy('vCompany', 'ASC')->get();
+        $companies = Company::where('eStatus', 'active')->where(function ($query) use ($company) {
+            if (!is_null($company)) {
+                $query->where('iCompanyId', $company->iCompanyId);
+            }
+        })->orderBy('vCompany', 'ASC')->get();
         $languages = Language::where('eStatus', 'active')->orderBy('vTitle', 'ASC')->get();
         $currencies = Currency::where('eStatus', 'active')->orderBy('vName', 'ASC')->get();
 
@@ -34,8 +59,12 @@ class DriverController extends BaseController
         if (!is_null($id)) {
             $driver = Driver::find($id);
         }
-
-        return view('pages.drivers.form',
+        if (!is_null($company)) {
+            $view = 'pages.frontend.panel.company.drivers.form';
+        } else {
+            $view = 'pages.drivers.form';
+        }
+        return view($view,
             [
                 'driver' => $driver,
                 'countries' => $countries,
@@ -107,11 +136,31 @@ class DriverController extends BaseController
         foreach ($drivers as $driver) {
             $list[] = [
                 'id' => $driver->iDriverId,
-                'name' => $driver->vName.' '.$driver->vLastName,
+                'name' => $driver->vName . ' ' . $driver->vLastName,
                 'location' => ['lat' => $driver->vLatitude, 'lng' => $driver->vLongitude],
                 'address' => $driver->vCaddress
             ];
         }
         return response()->json($list);
     }
+
+    public function getOnlineDrivers()
+    {
+        $apiToken = $this->request->header('company-api-token');
+        $drivers = [];
+        try {
+            $company = $this->authenticateApiUser($apiToken, 'company');
+        } catch (NotFoundHttpException $e) {
+            return response()->json(['message' => 'اطلاعات ورود ناقص است']);
+        }
+
+        $drivers = Driver::where('iCompanyId', $company->iCompanyId)->get();
+        $drivers->each(function ($driver) {
+            $tripUnsettledAmount = TripController::getUserCreditForUnsettledTrips($driver->iDriverId, 'driver');
+            $userWalletAmount = UsersWalletController::getUserWalletAmount($driver->iDriverId, 'driver');
+            $driver->credit = $tripUnsettledAmount + $userWalletAmount;
+        });
+        return response()->json($drivers);
+    }
 }
+

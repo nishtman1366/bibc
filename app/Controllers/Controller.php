@@ -46,8 +46,7 @@ class Controller
                 ->get()
                 ->first();
         } elseif ($userType === 'company') {
-            $user = Company::with('area')
-                ->where('iCompanyId', $authenticatedUser->user_id)
+            $user = Company::where('iCompanyId', $authenticatedUser->user_id)
                 ->get()
                 ->first();
         }

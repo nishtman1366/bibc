@@ -12,7 +12,7 @@ class Trip extends Model
 
     protected $primaryKey = 'iTripId';
 
-    protected $fillable=['eDriverPaymentStatus'];
+    protected $fillable=['eDriverPaymentStatus','iCompanyId'];
 
     protected $appends = ['eTypeText', 'jDate', 'iActiveText', 'vTripPaymentModeText'];
 

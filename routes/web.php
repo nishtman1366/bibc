@@ -3,6 +3,7 @@
 use Pecee\SimpleRouter\SimpleRouter as Route;
 
 Route::group(['prefix' => 'bibc'], function () {
+    Route::get('update', 'PaymentController@updateTripsTable');
     Route::get('/', 'HomeController@index')->name('home');
 
     Route::get('login', 'LoginController@index')->name('login-form');
@@ -31,12 +32,18 @@ Route::group(['prefix' => 'bibc'], function () {
             });
 
             Route::group(['prefix' => 'wallet'], function () {
-                Route::get('', 'UsersWalletController@index')->name('driver.wallet');
+                Route::get('', 'UsersWalletController@indexForDrivers')->name('driver.wallet');
             });
         });
 
         Route::group(['prefix' => 'company'], function () {
             Route::get('payments/{paymentType?}/{driverRequest?}', 'PaymentController@indexForCompanies')->name('company.payments');
+
+            Route::group(['prefix' => 'drivers'], function () {
+                Route::get('', 'DriverController@index')->name('company.drivers');
+                Route::get('new', 'DriverController@form')->name('company.drivers.new');
+                Route::post('', 'DriverController@create')->name('company.drivers.create');
+            });
         });
 
     });
@@ -163,7 +170,20 @@ Route::group(['prefix' => 'bibc'], function () {
         });
 
         Route::group(['prefix' => 'payments'], function () {
-            Route::get('/{paymentType?}/{driverRequest?}', 'PaymentController@index')->name('dashboard.payments');
+            Route::get('/{paymentType?}', 'PaymentController@index')->name('dashboard.payments');
+            Route::post('/settlement', 'PaymentController@settlement')->name('dashboard.payments.settlement');
+
+            Route::get('/wallets/{userType?}', 'UsersWalletController@index')->name('dashboard.wallets');
+            Route::get('/wallets/info/{userType?}/{userId?}', 'UsersWalletController@viewUserWallet')->name('dashboard.wallets.info');
+        });
+
+        Route::group(['prefix' => 'discounts'], function () {
+            Route::get('', 'DiscountController@index')->name('dashboard.discounts');
+            Route::get('new', 'DiscountController@form')->name('dashboard.discounts.new');
+            Route::post('', 'DiscountController@create')->name('dashboard.discounts.create');
+            Route::get('{id}/view', 'DiscountController@form')->name('dashboard.discounts.view');
+            Route::put('{id}', 'DiscountController@update')->name('dashboard.discounts.update');
+            Route::delete('{id}', 'DiscountController@delete')->name('dashboard.discounts.delete');
         });
         /*
      * مدیریت بسته ها
